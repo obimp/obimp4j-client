@@ -5,10 +5,17 @@ plugins {
 }
 
 group = 'io.github.obimp'
-version = '0.1.0'
+version = '0.1.6'
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri('https://maven.pkg.github.com/obimp/obimp4j-core')
+        credentials {
+            username = project.findProperty('gpr.user') ?: System.getenv('GPR_USERNAME')
+            password = project.findProperty('gpr.key') ?: System.getenv('GPR_TOKEN')
+        }
+    }
 }
 
 compileKotlin {
@@ -29,7 +36,10 @@ java {
 }
 
 dependencies {
+    implementation 'io.github.obimp:obimp4j-core:0.1.6'
     implementation 'org.bouncycastle:bctls-jdk18on:1.71.1'
+    implementation 'org.jetbrains.kotlin:kotlin-reflect:1.7.20'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 
@@ -89,8 +99,8 @@ publishing {
                     }
                 }
                 scm {
-                    connection = 'scm:git:git://github.com/obimp/obimp4j-core.git'
-                    developerConnection = 'scm:git:ssh://github.com/obimp/obimp4j-core.git'
+                    connection = 'scm:git:git://github.com/obimp/obimp4j-client.git'
+                    developerConnection = 'scm:git:ssh://github.com/obimp/obimp4j-client.git'
                     url = 'https://github.com/obimp/obimp4j-client'
                 }
             }
