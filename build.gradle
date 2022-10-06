@@ -36,8 +36,8 @@ java {
 }
 
 dependencies {
-    implementation 'io.github.obimp:obimp4j-core:0.1.6'
-    implementation 'org.bouncycastle:bctls-jdk18on:1.71.1'
+    implementation 'io.github.obimp:obimp4j-core:0.1.7'
+    implementation 'org.bouncycastle:bctls-jdk18on:1.72'
     implementation 'org.jetbrains.kotlin:kotlin-reflect:1.7.20'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
     testImplementation 'org.jetbrains.kotlin:kotlin-test'

@@ -38,7 +38,7 @@ import io.github.obimp.presence.ClientType
 import io.github.obimp.presence.Language
 import io.github.obimp.presence.Status
 import io.github.obimp.util.LibVersion
-import io.github.obimp.util.SystemInfoUtil
+import io.github.obimp.util.SystemInfoUtils
 import java.nio.ByteBuffer
 import java.time.LocalDateTime
 
@@ -78,7 +78,7 @@ class ReplyPacketHandler : PacketHandler<WTLD> {
             presInfo.addItem(WTLD(LongWord(0x0003), UTF8(LibVersion.NAME)))
             presInfo.addItem(WTLD(LongWord(0x0004), VersionQuadWord(LibVersion.VERSION)))
             presInfo.addItem(WTLD(LongWord(0x0005), Word(Language.RUSSIAN.code)))
-            presInfo.addItem(WTLD(LongWord(0x0006), UTF8(SystemInfoUtil.getOperatingSystemTitle())))
+            presInfo.addItem(WTLD(LongWord(0x0006), UTF8(SystemInfoUtils.getOperatingSystemTitle())))
             connection.sendPacket(presInfo)
 
             val setStatus = ObimpPacket(OBIMP_BEX_PRES, OBIMP_BEX_PRES_CLI_SET_STATUS)

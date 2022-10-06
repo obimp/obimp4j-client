@@ -16,16 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package io.github.obimp.tls
+package io.github.obimp.util
 
-import org.bouncycastle.tls.DefaultTlsClient
-import org.bouncycastle.tls.crypto.impl.bc.BcTlsCrypto
-import java.security.SecureRandom
+import java.security.MessageDigest
+import java.util.*
 
 /**
- * OBIMP TLS Client
+ * Hashing utils
  * @author Alexander Krysin
  */
-class ObimpTlsClient(private val host: String) : DefaultTlsClient(BcTlsCrypto(SecureRandom())) {
-    override fun getAuthentication() = ObimpTlsAuthentication(host)
+object HashUtils {
+    fun md5(data: String) = md5(data.encodeToByteArray())
+
+    fun md5(data: ByteArray): ByteArray {
+        val md = MessageDigest.getInstance("MD5")
+        md.update(data)
+        return md.digest()
+    }
+
+    fun base64(data: String): ByteArray = Base64.getEncoder().encode(data.encodeToByteArray())
 }

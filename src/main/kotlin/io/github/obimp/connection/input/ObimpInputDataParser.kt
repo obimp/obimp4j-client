@@ -28,6 +28,7 @@ import io.github.obimp.packet.header.ObimpHeader
 import java.nio.ByteBuffer
 
 /**
+ * OBIMP input data parser
  * @author Alexander Krysin
  */
 object ObimpInputDataParser : InputDataParser<WTLD> {

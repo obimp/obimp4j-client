@@ -16,16 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package io.github.obimp.tls
+package io.github.obimp
 
-import org.bouncycastle.tls.DefaultTlsClient
-import org.bouncycastle.tls.crypto.impl.bc.BcTlsCrypto
-import java.security.SecureRandom
+import io.github.obimp.connection.Connection
 
 /**
- * OBIMP TLS Client
+ * Client
  * @author Alexander Krysin
  */
-class ObimpTlsClient(private val host: String) : DefaultTlsClient(BcTlsCrypto(SecureRandom())) {
-    override fun getAuthentication() = ObimpTlsAuthentication(host)
+sealed interface Client {
+    val configuration: ClientConfiguration
+
+    fun configure(block: ClientConfiguration.() -> Unit) = configuration.block()
+
+    fun createConnection(secure: Boolean = false): Connection<*>
 }

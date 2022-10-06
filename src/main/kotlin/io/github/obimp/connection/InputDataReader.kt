@@ -25,6 +25,7 @@ import java.nio.channels.SocketChannel
 import kotlin.concurrent.thread
 
 /**
+ * Input data reader
  * @author Alexander Krysin
  */
 object InputDataReader {

@@ -22,6 +22,7 @@ import java.util.*
 import kotlin.reflect.KClass
 
 /**
+ * Listener manager
  * @author Alexander Krysin
  */
 sealed interface ListenerManager {

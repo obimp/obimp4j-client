@@ -19,6 +19,7 @@
 package io.github.obimp.util
 
 /**
+ * Library version
  * @author Alexander Krysin
  */
 object LibVersion {

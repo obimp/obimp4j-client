@@ -30,12 +30,9 @@ import io.github.obimp.listener.CommonListener
 import io.github.obimp.packet.ObimpPacket
 import io.github.obimp.packet.Packet
 import io.github.obimp.packet.handle.ObimpPacketHandler.Companion.OBIMP_BEX_COM
-import io.github.obimp.packet.handle.ObimpPacketHandler.Companion.OBIMP_BEX_UA
-import io.github.obimp.packet.handle.common.CommonPacketHandler.Companion.OBIMP_BEX_COM_CLI_HELLO
 import io.github.obimp.packet.handle.common.CommonPacketHandler.Companion.OBIMP_BEX_COM_CLI_LOGIN
-import io.github.obimp.packet.handle.ua.UserAvatarsPacketHandler.Companion.OBIMP_BEX_UA_CLI_AVATAR_REQ
-import io.github.obimp.util.HashUtil.base64
-import io.github.obimp.util.HashUtil.md5
+import io.github.obimp.util.HashUtils.base64
+import io.github.obimp.util.HashUtils.md5
 import kotlinx.coroutines.Runnable
 import java.net.InetSocketAddress
 import java.nio.ByteBuffer
@@ -43,6 +40,7 @@ import java.nio.channels.SelectionKey.*
 import java.nio.channels.SocketChannel
 
 /**
+ * Plain OBIMP connection
  * @author Alexander Krysin
  */
 class PlainObimpConnection : Connection<WTLD> {
@@ -124,20 +122,6 @@ class PlainObimpConnection : Connection<WTLD> {
             InputDataReader.stopIfNeeded()
             getListeners<CommonListener>().forEach(CommonListener::onConnectError)
         }
-    }
-
-    override fun login(username: String, password: String) {
-        this.username = username
-        this.password = password
-        val hello = ObimpPacket(OBIMP_BEX_COM, OBIMP_BEX_COM_CLI_HELLO)
-        hello.addItem(WTLD(LongWord(0x0001), UTF8(username)))
-        sendPacket(hello)
-    }
-
-    fun loadAvatar(avatarMD5Hash: ByteArray) {
-        val avatarRequest = ObimpPacket(OBIMP_BEX_UA, OBIMP_BEX_UA_CLI_AVATAR_REQ)
-        avatarRequest.addItem(WTLD(LongWord(0x0001), OctaWord(ByteBuffer.wrap(avatarMD5Hash))))
-        sendPacket(avatarRequest)
     }
 
     override fun disconnect() {

@@ -26,14 +26,14 @@ import io.github.obimp.data.type.UTF8
 import io.github.obimp.packet.ObimpPacket
 import io.github.obimp.packet.Packet
 import io.github.obimp.packet.handle.ObimpPacketHandler.Companion.OBIMP_BEX_COM
-import io.github.obimp.packet.handle.common.CommonPacketHandler.Companion.OBIMP_BEX_COM_CLI_HELLO
 import io.github.obimp.packet.handle.common.CommonPacketHandler.Companion.OBIMP_BEX_COM_CLI_LOGIN
-import io.github.obimp.util.HashUtil.base64
-import io.github.obimp.util.HashUtil.md5
+import io.github.obimp.util.HashUtils.base64
+import io.github.obimp.util.HashUtils.md5
 import java.nio.ByteBuffer
 import java.nio.channels.SocketChannel
 
 /**
+ * Secure OBIMP Connection
  * @author Alexander Krysin
  */
 class SecureObimpConnection : Connection<WTLD> {
@@ -72,14 +72,6 @@ class SecureObimpConnection : Connection<WTLD> {
 
     override fun connect(host: String, port: Int) {
         // TODO: Implement me
-    }
-
-    override fun login(username: String, password: String) {
-        this.username = username
-        this.password = password
-        val hello = ObimpPacket(OBIMP_BEX_COM, OBIMP_BEX_COM_CLI_HELLO)
-        hello.addItem(WTLD(LongWord(0x0001), UTF8(username)))
-        sendPacket(hello)
     }
 
     override fun disconnect() {

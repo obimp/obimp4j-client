@@ -16,16 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package io.github.obimp.tls
+package io.github.obimp.util
 
-import org.bouncycastle.tls.DefaultTlsClient
-import org.bouncycastle.tls.crypto.impl.bc.BcTlsCrypto
-import java.security.SecureRandom
+import java.net.InetAddress
+import java.net.UnknownHostException
 
 /**
- * OBIMP TLS Client
+ * System info utils
  * @author Alexander Krysin
  */
-class ObimpTlsClient(private val host: String) : DefaultTlsClient(BcTlsCrypto(SecureRandom())) {
-    override fun getAuthentication() = ObimpTlsAuthentication(host)
+object SystemInfoUtils {
+    fun getOperatingSystemTitle(): String? = System.getProperty("os.name")
+
+    fun getHostname() = try {
+        InetAddress.getLocalHost().hostName
+    } catch (e: UnknownHostException) {
+        null
+    }
 }

@@ -24,6 +24,7 @@ import kotlin.reflect.full.isSubclassOf
 import kotlin.reflect.full.superclasses
 
 /**
+ * OBIMP listener manager
  * @author Alexander Krysin
  */
 class ObimpListenerManager : ListenerManager {

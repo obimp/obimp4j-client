@@ -23,6 +23,7 @@ import io.github.obimp.data.structure.DataStructure
 import java.nio.ByteBuffer
 
 /**
+ * Input data parser
  * @author Alexander Krysin
  */
 sealed interface InputDataParser<T : DataStructure<*>> {

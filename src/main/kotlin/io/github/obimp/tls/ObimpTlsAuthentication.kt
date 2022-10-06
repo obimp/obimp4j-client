@@ -28,6 +28,7 @@ import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
 
 /**
+ * OBIMP TLS Authentication
  * @author Alexander Krysin
  */
 class ObimpTlsAuthentication(private val host: String) : ServerOnlyTlsAuthentication() {

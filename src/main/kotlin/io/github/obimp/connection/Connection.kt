@@ -24,6 +24,7 @@ import java.util.EventListener
 import kotlin.reflect.KClass
 
 /**
+ * Connection
  * @author Alexander Krysin
  */
 sealed interface Connection<T : DataStructure<*>> {
@@ -32,7 +33,6 @@ sealed interface Connection<T : DataStructure<*>> {
     var password: String
 
     fun connect(host: String, port: Int)
-    fun login(username: String, password: String)
     fun disconnect()
     fun getListenerManager(): ListenerManager
 
@@ -45,6 +45,6 @@ sealed interface Connection<T : DataStructure<*>> {
     fun sendPacket(packet: Packet<T>) = connectionListener.sendPacket(packet)
 
     companion object {
-        const val SALT = "OBIMPSALT"
+        internal const val SALT = "OBIMPSALT"
     }
 }

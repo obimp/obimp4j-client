@@ -16,15 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package io.github.obimp.util
+package io.github.obimp.common
 
 /**
+ * Disconnect reason
  * @author Alexander Krysin
  */
-object SystemInfoUtil {
-    var osName: String = System.getProperty("os.name")
-
-    fun getOperatingSystemTitle(): String {
-        return osName
-    }
+enum class DisconnectReason {
+    NETWORK_ERROR, DISCONNECTED_BY_USER
 }

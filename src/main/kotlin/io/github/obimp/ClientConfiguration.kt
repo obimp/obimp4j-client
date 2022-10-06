@@ -16,22 +16,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package io.github.obimp.util
+package io.github.obimp
 
-import java.security.MessageDigest
-import java.util.*
+import io.github.obimp.presence.ClientCapability
+import io.github.obimp.presence.ClientFlag
+import io.github.obimp.presence.ClientType
+import io.github.obimp.presence.Language
+import io.github.obimp.util.Version
 
 /**
+ * Client configuration
  * @author Alexander Krysin
  */
-object HashUtil {
-    fun md5(data: String) = md5(data.encodeToByteArray())
-
-    fun md5(data: ByteArray): ByteArray {
-        val md = MessageDigest.getInstance("MD5")
-        md.update(data)
-        return md.digest()
-    }
-
-    fun base64(data: String): ByteArray = Base64.getEncoder().encode(data.encodeToByteArray())
+sealed interface ClientConfiguration {
+    var clientType: ClientType
+    var clientName: String
+    var clientVersion: Version
+    var clientDescription: String?
+    var clientLanguage: Language
+    var clientCapabilities: List<ClientCapability>
+    var clientOperatingSystemName: String?
+    var clientHostname: String?
+    var clientFlag: ClientFlag?
 }
