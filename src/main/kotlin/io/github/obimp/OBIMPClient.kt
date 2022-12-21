@@ -18,15 +18,70 @@
 
 package io.github.obimp
 
-import io.github.obimp.connection.PlainObimpConnection
-import io.github.obimp.connection.SecureObimpConnection
+import io.github.obimp.connection.PlainOBIMPConnection
+import io.github.obimp.connection.SecureOBIMPConnection
+import io.github.obimp.listener.*
 
 /**
  * OBIMP Client
  * @author Alexander Krysin
  */
-object OBIMPClient : Client {
-    override val configuration: ClientConfiguration = OBIMPClientConfiguration
+class OBIMPClient(secure: Boolean, configure: ClientConfiguration.() -> Unit = {}) : Client {
+    private val configuration = OBIMPClientConfiguration()
+    private val connection = when {
+        secure -> SecureOBIMPConnection(configuration)
+        else -> PlainOBIMPConnection(configuration)
+    }
 
-    override fun createConnection(secure: Boolean) = if (secure) SecureObimpConnection() else PlainObimpConnection()
+    init {
+        configuration.configure()
+    }
+
+    fun addCommonListener(listener: CommonListener) = connection.addListener<CommonListener>(listener)
+
+    fun addContactListListener(listener: ContactListListener) = connection.addListener<ContactListListener>(listener)
+
+    fun addPresenceInfoListener(listener: PresenceInfoListener) = connection.addListener<PresenceInfoListener>(listener)
+
+    fun addInstantMessagingListener(listener: InstantMessagingListener) =
+        connection.addListener<InstantMessagingListener>(listener)
+
+    fun addUsersDirectoryListener(listener: UsersDirectoryListener) =
+        connection.addListener<UsersDirectoryListener>(listener)
+
+    fun addUserAvatarsListener(listener: UserAvatarsListener) = connection.addListener<UserAvatarsListener>(listener)
+
+    fun addFileTransferListener(listener: FileTransferListener) = connection.addListener<FileTransferListener>(listener)
+
+    fun addTransportsListener(listener: TransportsListener) = connection.addListener<TransportsListener>(listener)
+
+    fun removeCommonListener(listener: CommonListener) = connection.removeListener<CommonListener>(listener)
+
+    fun removeContactListListener(listener: ContactListListener) =
+        connection.removeListener<ContactListListener>(listener)
+
+    fun removePresenceInfoListener(listener: PresenceInfoListener) =
+        connection.removeListener<PresenceInfoListener>(listener)
+
+    fun removeInstantMessagingListener(listener: InstantMessagingListener) =
+        connection.removeListener<InstantMessagingListener>(listener)
+
+    fun removeUsersDirectoryListener(listener: UsersDirectoryListener) =
+        connection.removeListener<UsersDirectoryListener>(listener)
+
+    fun removeUserAvatarsListener(listener: UserAvatarsListener) =
+        connection.removeListener<UserAvatarsListener>(listener)
+
+    fun removeFileTransferListener(listener: FileTransferListener) =
+        connection.removeListener<FileTransferListener>(listener)
+
+    fun removeTransportsListener(listener: TransportsListener) = connection.removeListener<TransportsListener>(listener)
+
+    override fun connect(hostname: String, port: Int) {
+        connection.connect(hostname, port)
+    }
+
+    override fun login(username: String, password: String) {
+        connection.login(username, password)
+    }
 }

@@ -31,7 +31,7 @@ import java.security.cert.X509Certificate
  * OBIMP TLS Authentication
  * @author Alexander Krysin
  */
-class ObimpTlsAuthentication(private val host: String) : ServerOnlyTlsAuthentication() {
+class OBIMPTlsAuthentication(private val hostname: String) : ServerOnlyTlsAuthentication() {
     private val certificateFactory = CertificateFactory.getInstance("X.509")
 
     override fun notifyServerCertificate(serverCertificate: TlsServerCertificate) {
@@ -48,26 +48,26 @@ class ObimpTlsAuthentication(private val host: String) : ServerOnlyTlsAuthentica
 
     private fun checkCommonName(x509Certificate: X509Certificate) {
         var cnIsEqualsHostname = false
-        val x500Name = X500Name(x509Certificate.subjectDN.name)
+        val x500Name = X500Name(x509Certificate.subjectX500Principal.name)
         for (rdn in x500Name.getRDNs(BCStyle.CN)) {
             for (typeAndValue in rdn.typesAndValues) {
                 val value = IETFUtils.valueToString(typeAndValue.value)
-                if (value.equals(host, ignoreCase = true)) {
+                if (value.equals(hostname, ignoreCase = true)) {
                     cnIsEqualsHostname = true
                 }
             }
         }
         if (!cnIsEqualsHostname) {
-            throw CertificateException("Certificate CN isn't equals host.")
+            throw CertificateException("Certificate CN isn't equals hostname.")
         }
     }
 
     private fun checkOnSelfSigned(x509Certificate: X509Certificate) {
-        val x500Name = X500Name(x509Certificate.issuerDN.name)
+        val x500Name = X500Name(x509Certificate.issuerX500Principal.name)
         for (rdn in x500Name.getRDNs(BCStyle.CN)) {
             for (typeAndValue in rdn.typesAndValues) {
                 val value = IETFUtils.valueToString(typeAndValue.value)
-                if (value.equals(host, ignoreCase = true)) {
+                if (value.equals(hostname, ignoreCase = true)) {
                     throw CertificateException("Certificate is self-signed.")
                 }
             }

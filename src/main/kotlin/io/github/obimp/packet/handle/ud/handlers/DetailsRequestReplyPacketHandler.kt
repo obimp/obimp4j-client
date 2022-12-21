@@ -18,8 +18,7 @@
 
 package io.github.obimp.packet.handle.ud.handlers
 
-import io.github.obimp.connection.Connection
-import io.github.obimp.connection.getListeners
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.structure.readDataType
 import io.github.obimp.data.type.Byte
@@ -36,14 +35,14 @@ import java.time.ZonedDateTime
 /**
  * @author Alexander Krysin
  */
-class DetailsRequestReplyPacketHandler : PacketHandler<WTLD> {
-    override fun handlePacket(connection: Connection<WTLD>, packet: Packet<WTLD>) {
+internal class DetailsRequestReplyPacketHandler : PacketHandler<WTLD> {
+    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         val requestDetailsResult = RequestDetailsResult.byCode(packet.nextItem().readDataType<Word>().value)
         val accountName = packet.nextItem().readDataType<UTF8>().value
         var userDetails: UserDetails? = null
 
         if (requestDetailsResult == RequestDetailsResult.SUCCESS) {
-            userDetails = UserDetails(requestDetailsResult, accountName)
+            userDetails = UserDetails(accountName)
 
             while (packet.hasItems()) {
                 val wtld = packet.nextItem()

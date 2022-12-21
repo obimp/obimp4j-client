@@ -18,7 +18,7 @@
 
 package io.github.obimp.packet.handle.ua
 
-import io.github.obimp.connection.Connection
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.packet.Packet
 import io.github.obimp.packet.handle.PacketHandler
@@ -29,14 +29,14 @@ import io.github.obimp.packet.handle.ua.handlers.UserAvatarsParametersReplyPacke
 /**
  * @author Alexander Krysin
  */
-class UserAvatarsPacketHandler : PacketHandler<WTLD> {
+internal class UserAvatarsPacketHandler : PacketHandler<WTLD> {
     private val bexSubtypeToPacketHandler = mapOf(
         Pair(OBIMP_BEX_UA_SRV_PARAMS_REPLY, UserAvatarsParametersReplyPacketHandler()),
         Pair(OBIMP_BEX_UA_SRV_AVATAR_REPLY, AvatarReplyPacketHandler()),
         Pair(OBIMP_BEX_UA_SRV_AVATAR_SET_REPLY, AvatarSetReplyPacketHandler())
     )
 
-    override fun handlePacket(connection: Connection<WTLD>, packet: Packet<WTLD>) {
+    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         bexSubtypeToPacketHandler[packet.getSubtype()]?.handlePacket(connection, packet)
     }
 

@@ -19,13 +19,12 @@
 package io.github.obimp.listener
 
 import io.github.obimp.transports.*
-import java.util.*
 
 /**
  * Transports listener
  * @author Alexander Krysin
  */
-interface TransportsListener : EventListener {
+interface TransportsListener : OBIMPEventListener {
     /**
      * Transports parameters callback
      * @param transportsParameters Transports parameters

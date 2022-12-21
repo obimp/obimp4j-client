@@ -18,8 +18,7 @@
 
 package io.github.obimp.packet.handle.im.handlers
 
-import io.github.obimp.connection.Connection
-import io.github.obimp.connection.getListeners
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.structure.readDataType
 import io.github.obimp.data.type.*
@@ -31,7 +30,7 @@ import io.github.obimp.im.SystemMessagePopupPosition
 import io.github.obimp.listener.InstantMessagingListener
 import io.github.obimp.packet.ObimpPacket
 import io.github.obimp.packet.Packet
-import io.github.obimp.packet.handle.ObimpPacketHandler.Companion.OBIMP_BEX_IM
+import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_IM
 import io.github.obimp.packet.handle.PacketHandler
 import io.github.obimp.packet.handle.im.InstantMessagingPacketHandler.Companion.OBIMP_BEX_IM_CLI_SRV_MSG_REPORT
 import java.time.LocalDateTime
@@ -39,8 +38,8 @@ import java.time.LocalDateTime
 /**
  * @author Alexander Krysin
  */
-class MessagePacketHandler : PacketHandler<WTLD> {
-    override fun handlePacket(connection: Connection<WTLD>, packet: Packet<WTLD>) {
+internal class MessagePacketHandler : PacketHandler<WTLD> {
+    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         val accountName = packet.nextItem().readDataType<UTF8>().value
         val messageId = packet.nextItem().readDataType<LongWord>().value
         val messageType = packet.nextItem().readDataType<LongWord>().value

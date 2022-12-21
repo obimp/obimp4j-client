@@ -19,8 +19,7 @@
 package io.github.obimp.packet.handle.cl.handlers
 
 import io.github.obimp.cl.*
-import io.github.obimp.connection.Connection
-import io.github.obimp.connection.getListeners
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.structure.readDataType
 import io.github.obimp.data.type.*
@@ -28,27 +27,22 @@ import io.github.obimp.data.type.Byte
 import io.github.obimp.listener.ContactListListener
 import io.github.obimp.packet.ObimpPacket
 import io.github.obimp.packet.Packet
-import io.github.obimp.packet.handle.ObimpPacketHandler.Companion.OBIMP_BEX_PRES
+import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_PRES
 import io.github.obimp.packet.handle.PacketHandler
 import io.github.obimp.packet.handle.presence.PresencePacketHandler.Companion.OBIMP_BEX_PRES_CLI_ACTIVATE
 import io.github.obimp.packet.handle.presence.PresencePacketHandler.Companion.OBIMP_BEX_PRES_CLI_SET_PRES_INFO
 import io.github.obimp.packet.handle.presence.PresencePacketHandler.Companion.OBIMP_BEX_PRES_CLI_SET_STATUS
-import io.github.obimp.presence.ClientCapability
-import io.github.obimp.presence.ClientType
-import io.github.obimp.presence.Language
 import io.github.obimp.presence.Status
-import io.github.obimp.util.LibVersion
-import io.github.obimp.util.SystemInfoUtils
 import java.nio.ByteBuffer
 import java.time.LocalDateTime
 
 /**
  * @author Alexander Krysin
  */
-class ReplyPacketHandler : PacketHandler<WTLD> {
+internal class ReplyPacketHandler : PacketHandler<WTLD> {
     private var activated = false
 
-    override fun handlePacket(connection: Connection<WTLD>, packet: Packet<WTLD>) {
+    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         if (!activated) {
             val contactList = getContactListItems(packet.nextItem())
 
@@ -62,23 +56,25 @@ class ReplyPacketHandler : PacketHandler<WTLD> {
             presInfo.addItem(
                 WTLD(
                     LongWord(0x0001),
-                    Word(ClientCapability.MSGS_UTF8.capability),
-                    Word(ClientCapability.MSGS_RTF.capability),
-                    Word(ClientCapability.MSGS_HTML.capability),
-                    Word(ClientCapability.MSGS_ENCRYPT.capability),
-                    Word(ClientCapability.NOTIFS_TYPING.capability),
-                    Word(ClientCapability.AVATARS.capability),
-                    Word(ClientCapability.FILE_TRANSFER.capability),
-                    Word(ClientCapability.TRANSPORTS.capability),
-                    Word(ClientCapability.NOTIFS_ALARM.capability),
-                    Word(ClientCapability.NOTIFS_MAIL.capability)
+                    *connection.configuration.clientCapabilities.map { Word(it.capability) }.toTypedArray()
                 )
             )
-            presInfo.addItem(WTLD(LongWord(0x0002), Word(ClientType.USER.value)))
-            presInfo.addItem(WTLD(LongWord(0x0003), UTF8(LibVersion.NAME)))
-            presInfo.addItem(WTLD(LongWord(0x0004), VersionQuadWord(LibVersion.VERSION)))
-            presInfo.addItem(WTLD(LongWord(0x0005), Word(Language.RUSSIAN.code)))
-            presInfo.addItem(WTLD(LongWord(0x0006), UTF8(SystemInfoUtils.getOperatingSystemTitle())))
+            presInfo.addItem(WTLD(LongWord(0x0002), Word(connection.configuration.clientType.value)))
+            presInfo.addItem(WTLD(LongWord(0x0003), UTF8(connection.configuration.clientName)))
+            presInfo.addItem(WTLD(LongWord(0x0004), VersionQuadWord(connection.configuration.clientVersion)))
+            presInfo.addItem(WTLD(LongWord(0x0005), Word(connection.configuration.clientLanguage.code)))
+            connection.configuration.clientOperatingSystemName?.let {
+                presInfo.addItem(WTLD(LongWord(0x0006), UTF8(it)))
+            }
+            connection.configuration.clientDescription?.let {
+                presInfo.addItem(WTLD(LongWord(0x0007), UTF8(it)))
+            }
+            connection.configuration.clientFlag?.let {
+                presInfo.addItem(WTLD(LongWord(0x0008), LongWord(it.flag)))
+            }
+            connection.configuration.clientHostname?.let {
+                presInfo.addItem(WTLD(LongWord(0x0009), UTF8(it)))
+            }
             connection.sendPacket(presInfo)
 
             val setStatus = ObimpPacket(OBIMP_BEX_PRES, OBIMP_BEX_PRES_CLI_SET_STATUS)

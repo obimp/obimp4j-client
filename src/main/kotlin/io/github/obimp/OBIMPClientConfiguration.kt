@@ -30,7 +30,7 @@ import io.github.obimp.util.Version
  * OBIMP Client configuration
  * @author Alexander Krysin
  */
-object OBIMPClientConfiguration : ClientConfiguration {
+internal class OBIMPClientConfiguration : ClientConfiguration {
     override var clientType: ClientType = ClientType.USER
     override var clientName: String = LibVersion.NAME
     override var clientVersion: Version = LibVersion.VERSION

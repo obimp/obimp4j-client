@@ -22,13 +22,12 @@ import io.github.obimp.im.EncryptionKeyReply
 import io.github.obimp.im.IncomingMessage
 import io.github.obimp.im.InstantMessagingParameters
 import io.github.obimp.im.Notification
-import java.util.*
 
 /**
  * Instant messaging listener
  * @author Alexander Krysin
  */
-interface InstantMessagingListener : EventListener {
+interface InstantMessagingListener : OBIMPEventListener {
     /**
      * Instant messaging parameters callback
      * @param instantMessagingParameters Instant messaging parameters
@@ -42,7 +41,7 @@ interface InstantMessagingListener : EventListener {
 
     /**
      * Incoming message callback
-     * @param message Message
+     * @param incomingMessage Message
      */
     fun onIncomingMessage(incomingMessage: IncomingMessage)
 

@@ -19,13 +19,12 @@
 package io.github.obimp.listener
 
 import io.github.obimp.cl.*
-import java.util.*
 
 /**
  * Contact list listener
  * @author Alexander Krysin
  */
-interface ContactListListener : EventListener {
+interface ContactListListener : OBIMPEventListener {
     /**
      * Contact list parameters callback
      * @param contactListParameters Contact list parameters

@@ -18,45 +18,38 @@
 
 package io.github.obimp.connection
 
-import kotlinx.coroutines.Runnable
 import java.nio.channels.SelectionKey
+import java.nio.channels.SelectionKey.*
 import java.nio.channels.Selector
 import java.nio.channels.SocketChannel
 import kotlin.concurrent.thread
 
 /**
- * Input data reader
+ * Socket channels selector
  * @author Alexander Krysin
  */
-object InputDataReader {
-    var selector: Selector = Selector.open()
+internal object Selector {
+    private var selector: Selector = Selector.open()
 
-    private val selectorThread = thread(start = false) {
-        while (selector.isOpen) {
-            selector.select()
-            if (!selector.isOpen) return@thread
-            for (selectedKey in selector.selectedKeys()) {
-                if (selectedKey.isConnectable) {
-                    (selectedKey.channel() as SocketChannel).finishConnect()
-                }
-                if (selectedKey.isReadable || selectedKey.isWritable) {
-                    (selectedKey.attachment() as Runnable).run()
+    fun start() {
+        if (!selector.isOpen) {
+            selector = Selector.open()
+        }
+        thread {
+            while (selector.isOpen) {
+                selector.select {
+                    (it.attachment() as Runnable).run()
                 }
             }
         }
     }
 
-    fun startIfNeeded() {
-        if (!selector.isOpen) {
-            selector = Selector.open()
-        }
-        if (!selectorThread.isAlive) {
-            selectorThread.start()
-        }
+    fun register(channel: SocketChannel): SelectionKey {
+        return channel.register(selector, OP_CONNECT or OP_READ or OP_WRITE)
     }
 
-    fun stopIfNeeded() {
-        if (selector.keys().none(SelectionKey::isValid)) {
+    fun stop() {
+        if (selector.keys().isEmpty()) {
             selector.close()
         }
     }

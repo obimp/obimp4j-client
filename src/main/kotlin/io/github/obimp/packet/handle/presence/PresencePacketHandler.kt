@@ -18,7 +18,7 @@
 
 package io.github.obimp.packet.handle.presence
 
-import io.github.obimp.connection.Connection
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.packet.Packet
 import io.github.obimp.packet.handle.PacketHandler
@@ -27,7 +27,7 @@ import io.github.obimp.packet.handle.presence.handlers.*
 /**
  * @author Alexander Krysin
  */
-class PresencePacketHandler : PacketHandler<WTLD> {
+internal class PresencePacketHandler : PacketHandler<WTLD> {
     private val bexSubtypeToPacketHandler = mapOf(
         Pair(OBIMP_BEX_PRES_SRV_PARAMS_REPLY, PresenceParametersReplyPacketHandler()),
         Pair(OBIMP_BEX_PRES_SRV_CONTACT_ONLINE, ContactOnlinePacketHandler()),
@@ -37,7 +37,7 @@ class PresencePacketHandler : PacketHandler<WTLD> {
         Pair(OBIMP_BEX_PRES_SRV_OWN_MAIL_URL, OwnMailUrlPacketHandler()),
     )
 
-    override fun handlePacket(connection: Connection<WTLD>, packet: Packet<WTLD>) {
+    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         bexSubtypeToPacketHandler[packet.getSubtype()]?.handlePacket(connection, packet)
     }
 

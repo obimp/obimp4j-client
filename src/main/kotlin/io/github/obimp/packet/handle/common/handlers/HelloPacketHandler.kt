@@ -19,8 +19,7 @@
 package io.github.obimp.packet.handle.common.handlers
 
 import io.github.obimp.common.HelloError
-import io.github.obimp.connection.Connection
-import io.github.obimp.connection.getListeners
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.structure.readDataType
 import io.github.obimp.data.type.BLK
@@ -32,8 +31,8 @@ import io.github.obimp.packet.handle.PacketHandler
 /**
  * @author Alexander Krysin
  */
-class HelloPacketHandler : PacketHandler<WTLD> {
-    override fun handlePacket(connection: Connection<WTLD>, packet: Packet<WTLD>) {
+internal class HelloPacketHandler : PacketHandler<WTLD> {
+    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         val wtld = packet.nextItem()
         when (wtld.getType()) {
             0x0001 -> {
@@ -44,10 +43,10 @@ class HelloPacketHandler : PacketHandler<WTLD> {
             }
             0x0002 -> {
                 val serverKey = wtld.readDataType<BLK>().value.array()
-                connection.connectionListener.readyToHashLogin(serverKey)
+                connection.hashLogin(serverKey)
             }
             0x0007 -> {
-                connection.connectionListener.readyToPlaintextLogin()
+                connection.plaintextLogin()
             }
         }
     }

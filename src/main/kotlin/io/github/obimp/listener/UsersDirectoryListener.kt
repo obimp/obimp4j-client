@@ -19,13 +19,12 @@
 package io.github.obimp.listener
 
 import io.github.obimp.ud.*
-import java.util.*
 
 /**
  * Users directory listener
  * @author Alexander Krysin
  */
-interface UsersDirectoryListener : EventListener {
+interface UsersDirectoryListener : OBIMPEventListener {
     /**
      * Users directory parameters
      * @param usersDirectoryParameters Users directory parameters

@@ -18,15 +18,24 @@
 
 package io.github.obimp.connection
 
-import java.util.*
+import io.github.obimp.listener.OBIMPEventListener
 import kotlin.reflect.KClass
 
 /**
- * Listener manager
  * @author Alexander Krysin
  */
-sealed interface ListenerManager {
-    fun <T : EventListener> addListener(listener: T)
-    fun <T : EventListener> removeListener(listener: T)
-    fun <T : EventListener> getListeners(type: KClass<T>): List<T>
+internal open class ListenerManager {
+    val listeners = mutableMapOf<KClass<out OBIMPEventListener>, MutableList<OBIMPEventListener>>()
+
+    inline fun <reified T : OBIMPEventListener> getListeners(): List<T> {
+        return listeners[T::class]?.map { it as T } ?: emptyList()
+    }
+
+    inline fun <reified T : OBIMPEventListener> addListener(listener: OBIMPEventListener) {
+        listeners.merge(T::class, mutableListOf(listener)) { old, new -> (old + new).toMutableList() }
+    }
+
+    inline fun <reified T : OBIMPEventListener> removeListener(listener: OBIMPEventListener) {
+        listeners[T::class]?.remove(listener)
+    }
 }

@@ -18,8 +18,7 @@
 
 package io.github.obimp.packet.handle.ud.handlers
 
-import io.github.obimp.connection.Connection
-import io.github.obimp.connection.getListeners
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.structure.readDataType
 import io.github.obimp.data.type.Word
@@ -31,8 +30,8 @@ import io.github.obimp.ud.SecureUpdateResult
 /**
  * @author Alexander Krysin
  */
-class SecureUpdateReplyPacketHandler : PacketHandler<WTLD> {
-    override fun handlePacket(connection: Connection<WTLD>, packet: Packet<WTLD>) {
+internal class SecureUpdateReplyPacketHandler : PacketHandler<WTLD> {
+    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         val secureUpdateResult = SecureUpdateResult.byCode(packet.nextItem().readDataType<Word>().value)
 
         if (secureUpdateResult == SecureUpdateResult.SUCCESS) {

@@ -18,16 +18,13 @@
 
 package io.github.obimp
 
-import io.github.obimp.connection.Connection
+import io.github.obimp.listener.OBIMPEventListener
 
 /**
  * Client
  * @author Alexander Krysin
  */
-sealed interface Client {
-    val configuration: ClientConfiguration
-
-    fun configure(block: ClientConfiguration.() -> Unit) = configuration.block()
-
-    fun createConnection(secure: Boolean = false): Connection<*>
+internal sealed interface Client {
+    fun connect(hostname: String, port: Int)
+    fun login(username: String, password: String)
 }

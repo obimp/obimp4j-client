@@ -18,14 +18,13 @@
 
 package io.github.obimp.connection.input
 
-import io.github.obimp.connection.Connection
-import io.github.obimp.data.structure.DataStructure
+import io.github.obimp.connection.AbstractOBIMPConnection
 import java.nio.ByteBuffer
 
 /**
  * Input data parser
  * @author Alexander Krysin
  */
-sealed interface InputDataParser<T : DataStructure<*>> {
-    fun parseInputData(connection: Connection<T>, buffer: ByteBuffer)
+internal sealed interface InputDataParser {
+    fun parseInputData(connection: AbstractOBIMPConnection, buffer: ByteBuffer)
 }

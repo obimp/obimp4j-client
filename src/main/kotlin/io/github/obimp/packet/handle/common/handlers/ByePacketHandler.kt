@@ -19,8 +19,7 @@
 package io.github.obimp.packet.handle.common.handlers
 
 import io.github.obimp.common.ByeReason
-import io.github.obimp.connection.Connection
-import io.github.obimp.connection.getListeners
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.structure.readDataType
 import io.github.obimp.data.type.Word
@@ -31,8 +30,8 @@ import io.github.obimp.packet.handle.PacketHandler
 /**
  * @author Alexander Krysin
  */
-class ByePacketHandler : PacketHandler<WTLD> {
-    override fun handlePacket(connection: Connection<WTLD>, packet: Packet<WTLD>) {
+internal class ByePacketHandler : PacketHandler<WTLD> {
+    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         for (cl in connection.getListeners<CommonListener>()) {
             val byeReasonCode = packet.nextItem().readDataType<Word>().value
             cl.onDisconnectByServer(ByeReason.byCode(byeReasonCode))

@@ -19,8 +19,7 @@
 package io.github.obimp.packet.handle.common.handlers
 
 import io.github.obimp.common.LoginError
-import io.github.obimp.connection.Connection
-import io.github.obimp.connection.getListeners
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.structure.readDataType
 import io.github.obimp.data.structure.readDataTypeList
@@ -28,13 +27,13 @@ import io.github.obimp.data.type.Word
 import io.github.obimp.listener.CommonListener
 import io.github.obimp.packet.ObimpPacket
 import io.github.obimp.packet.Packet
-import io.github.obimp.packet.handle.ObimpPacketHandler.Companion.OBIMP_BEX_CL
-import io.github.obimp.packet.handle.ObimpPacketHandler.Companion.OBIMP_BEX_FT
-import io.github.obimp.packet.handle.ObimpPacketHandler.Companion.OBIMP_BEX_IM
-import io.github.obimp.packet.handle.ObimpPacketHandler.Companion.OBIMP_BEX_PRES
-import io.github.obimp.packet.handle.ObimpPacketHandler.Companion.OBIMP_BEX_TP
-import io.github.obimp.packet.handle.ObimpPacketHandler.Companion.OBIMP_BEX_UA
-import io.github.obimp.packet.handle.ObimpPacketHandler.Companion.OBIMP_BEX_UD
+import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_CL
+import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_FT
+import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_IM
+import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_PRES
+import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_TP
+import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_UA
+import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_UD
 import io.github.obimp.packet.handle.PacketHandler
 import io.github.obimp.packet.handle.cl.ContactListPacketHandler.Companion.OBIMP_BEX_CL_CLI_PARAMS
 import io.github.obimp.packet.handle.ft.FileTransferPacketHandler.Companion.OBIMP_BEX_FT_CLI_PARAMS
@@ -48,8 +47,8 @@ import io.github.obimp.packet.handle.ud.UsersDirectoryPacketHandler.Companion.OB
 /**
  * @author Alexander Krysin
  */
-class LoginReplyPacketHandler : PacketHandler<WTLD> {
-    override fun handlePacket(connection: Connection<WTLD>, packet: Packet<WTLD>) {
+internal class LoginReplyPacketHandler : PacketHandler<WTLD> {
+    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         val wtld = packet.nextItem()
         if (wtld.getType() == 0x0001) {
             val errorCode = wtld.readDataType<Word>().value

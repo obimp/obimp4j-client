@@ -18,19 +18,19 @@
 
 package io.github.obimp.packet.handle.common.handlers
 
-import io.github.obimp.connection.Connection
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.packet.ObimpPacket
 import io.github.obimp.packet.Packet
-import io.github.obimp.packet.handle.ObimpPacketHandler.Companion.OBIMP_BEX_COM
+import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_COM
 import io.github.obimp.packet.handle.PacketHandler
 import io.github.obimp.packet.handle.common.CommonPacketHandler.Companion.OBIMP_BEX_COM_CLI_SRV_KEEPALIVE_PONG
 
 /**
  * @author Alexander Krysin
  */
-class KeepalivePingPacketHandler : PacketHandler<WTLD> {
-    override fun handlePacket(connection: Connection<WTLD>, packet: Packet<WTLD>) {
+internal class KeepalivePingPacketHandler : PacketHandler<WTLD> {
+    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         connection.sendPacket(ObimpPacket(OBIMP_BEX_COM, OBIMP_BEX_COM_CLI_SRV_KEEPALIVE_PONG))
     }
 }

@@ -22,13 +22,12 @@ import io.github.obimp.presence.MailNotification
 import io.github.obimp.presence.OnlineContactInfo
 import io.github.obimp.presence.PresenceInfo
 import io.github.obimp.presence.PresenceInfoParameters
-import java.util.*
 
 /**
  * Presence info listener
  * @author Alexander Krysin
  */
-interface PresenceInfoListener : EventListener {
+interface PresenceInfoListener : OBIMPEventListener {
     /**
      * Presence info parameters callback
      * @param presenceInfoParameters Presence info parameters

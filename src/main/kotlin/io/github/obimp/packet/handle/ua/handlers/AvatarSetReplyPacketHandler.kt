@@ -18,8 +18,7 @@
 
 package io.github.obimp.packet.handle.ua.handlers
 
-import io.github.obimp.connection.Connection
-import io.github.obimp.connection.getListeners
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.structure.readDataType
 import io.github.obimp.data.type.Word
@@ -31,8 +30,8 @@ import io.github.obimp.ua.AvatarSetResult
 /**
  * @author Alexander Krysin
  */
-class AvatarSetReplyPacketHandler : PacketHandler<WTLD> {
-    override fun handlePacket(connection: Connection<WTLD>, packet: Packet<WTLD>) {
+internal class AvatarSetReplyPacketHandler : PacketHandler<WTLD> {
+    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         val avatarSetResult = AvatarSetResult.byValue(packet.nextItem().readDataType<Word>().value)
 
         for (al in connection.getListeners<UserAvatarsListener>()) {

@@ -19,13 +19,12 @@
 package io.github.obimp.listener
 
 import io.github.obimp.ft.*
-import java.util.*
 
 /**
  * File transfer listener
  * @author Alexander Krysin
  */
-interface FileTransferListener : EventListener {
+interface FileTransferListener : OBIMPEventListener {
     /**
      * File transfer parameters callback
      * @param fileTransferParameters File transfer parameters

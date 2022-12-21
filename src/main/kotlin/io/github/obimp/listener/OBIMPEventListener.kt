@@ -16,21 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package io.github.obimp.connection
-
-import io.github.obimp.data.structure.DataStructure
-import io.github.obimp.packet.Packet
+package io.github.obimp.listener
 
 /**
- * Connection listener
+ * Marker interface for event listeners
  * @author Alexander Krysin
  */
-interface ConnectionListener<T : DataStructure<*>> {
-    fun readyToHashLogin(serverKey: ByteArray) {
-
-    }
-    fun readyToPlaintextLogin() {
-
-    }
-    fun sendPacket(packet: Packet<T>)
-}
+sealed interface OBIMPEventListener

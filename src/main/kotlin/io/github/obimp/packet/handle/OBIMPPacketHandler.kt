@@ -18,7 +18,7 @@
 
 package io.github.obimp.packet.handle
 
-import io.github.obimp.connection.Connection
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.packet.Packet
 import io.github.obimp.packet.handle.cl.ContactListPacketHandler
@@ -33,7 +33,7 @@ import io.github.obimp.packet.handle.ud.UsersDirectoryPacketHandler
 /**
  * @author Alexander Krysin
  */
-class ObimpPacketHandler : PacketHandler<WTLD> {
+internal class OBIMPPacketHandler : PacketHandler<WTLD> {
     private val bexTypeToPacketHandler = mapOf(
         Pair(OBIMP_BEX_COM, CommonPacketHandler()),
         Pair(OBIMP_BEX_CL, ContactListPacketHandler()),
@@ -45,7 +45,7 @@ class ObimpPacketHandler : PacketHandler<WTLD> {
         Pair(OBIMP_BEX_TP, TransportsPacketHandler())
     )
 
-    override fun handlePacket(connection: Connection<WTLD>, packet: Packet<WTLD>) {
+    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         bexTypeToPacketHandler[packet.getType()]?.handlePacket(connection, packet)
     }
 

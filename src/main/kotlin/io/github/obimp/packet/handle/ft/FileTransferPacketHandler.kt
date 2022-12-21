@@ -18,7 +18,7 @@
 
 package io.github.obimp.packet.handle.ft
 
-import io.github.obimp.connection.Connection
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.packet.Packet
 import io.github.obimp.packet.handle.PacketHandler
@@ -27,7 +27,7 @@ import io.github.obimp.packet.handle.ft.handler.*
 /**
  * @author Alexander Krysin
  */
-class FileTransferPacketHandler : PacketHandler<WTLD> {
+internal class FileTransferPacketHandler : PacketHandler<WTLD> {
     private val bexSubtypeToPacketHandler = mapOf(
         Pair(OBIMP_BEX_FT_SRV_PARAMS_REPLY, FileTransferParametersReplyPacketHandler()),
         Pair(OBIMP_BEX_FT_CLI_SRV_SEND_FILE_REQUEST, SendFileRequestPacketHandler()),
@@ -40,7 +40,7 @@ class FileTransferPacketHandler : PacketHandler<WTLD> {
         Pair(OBIMP_BEX_FT_DIR_PROX_FILE_DATA, FileDataPacketHandler())
     )
 
-    override fun handlePacket(connection: Connection<WTLD>, packet: Packet<WTLD>) {
+    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         bexSubtypeToPacketHandler[packet.getSubtype()]?.handlePacket(connection, packet)
     }
     

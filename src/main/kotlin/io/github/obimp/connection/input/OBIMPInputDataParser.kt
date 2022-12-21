@@ -18,11 +18,11 @@
 
 package io.github.obimp.connection.input
 
-import io.github.obimp.connection.Connection
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.type.LongWord
 import io.github.obimp.packet.ObimpPacket
-import io.github.obimp.packet.handle.ObimpPacketHandler
+import io.github.obimp.packet.handle.OBIMPPacketHandler
 import io.github.obimp.packet.header.Header
 import io.github.obimp.packet.header.ObimpHeader
 import java.nio.ByteBuffer
@@ -31,11 +31,11 @@ import java.nio.ByteBuffer
  * OBIMP input data parser
  * @author Alexander Krysin
  */
-object ObimpInputDataParser : InputDataParser<WTLD> {
-    private val packetHandler = ObimpPacketHandler()
-    private val inputBuffer = mutableMapOf<Connection<WTLD>, Pair<ByteBuffer, Header?>>()
+internal object OBIMPInputDataParser : InputDataParser {
+    private val packetHandler = OBIMPPacketHandler()
+    private val inputBuffer = mutableMapOf<AbstractOBIMPConnection, Pair<ByteBuffer, Header?>>()
 
-    override fun parseInputData(connection: Connection<WTLD>, buffer: ByteBuffer) {
+    override fun parseInputData(connection: AbstractOBIMPConnection, buffer: ByteBuffer) {
         buffer.rewind()
         inputBuffer[connection]?.let { pair ->
             val (currentBuffer, header) = pair
@@ -111,7 +111,7 @@ object ObimpInputDataParser : InputDataParser<WTLD> {
         return ObimpHeader(sequence, type, subtype, requestID, contentLength)
     }
 
-    private fun parseBody(connection: Connection<WTLD>, header: Header, buffer: ByteBuffer) {
+    private fun parseBody(connection: AbstractOBIMPConnection, header: Header, buffer: ByteBuffer) {
         val packet = ObimpPacket(header.type, header.subtype)
         packet.header = header
         if (header.contentLength > 0) {

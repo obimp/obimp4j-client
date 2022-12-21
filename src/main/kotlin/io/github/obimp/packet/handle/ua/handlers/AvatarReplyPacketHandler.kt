@@ -18,8 +18,7 @@
 
 package io.github.obimp.packet.handle.ua.handlers
 
-import io.github.obimp.connection.Connection
-import io.github.obimp.connection.getListeners
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.structure.readDataType
 import io.github.obimp.data.type.BLK
@@ -35,8 +34,8 @@ import java.nio.ByteBuffer
 /**
  * @author Alexander Krysin
  */
-class AvatarReplyPacketHandler : PacketHandler<WTLD> {
-    override fun handlePacket(connection: Connection<WTLD>, packet: Packet<WTLD>) {
+internal class AvatarReplyPacketHandler : PacketHandler<WTLD> {
+    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         val avatarRequestResult = AvatarRequestResult.byValue(packet.nextItem().readDataType<Word>().value)
         val avatarMD5Hash = packet.nextItem().readDataType<OctaWord>().value.array()
         var avatarFile: ByteBuffer? = null

@@ -16,14 +16,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package io.github.obimp.connection
+package io.github.obimp.tls
 
-import java.util.*
+import org.bouncycastle.tls.DefaultTlsClient
+import org.bouncycastle.tls.ProtocolVersion
+import org.bouncycastle.tls.crypto.impl.bc.BcTlsCrypto
+import java.security.SecureRandom
 
 /**
+ * OBIMP TLS Client
  * @author Alexander Krysin
  */
+class OBIMPTlsClient(private val hostname: String) : DefaultTlsClient(BcTlsCrypto(SecureRandom())) {
+    override fun getAuthentication() = OBIMPTlsAuthentication(hostname)
 
-inline fun <reified T : EventListener> ListenerManager.getListeners() = getListeners(T::class)
-
-inline fun <reified T : EventListener> Connection<*>.getListeners() = getListeners(T::class)
+    override fun getSupportedVersions(): Array<ProtocolVersion> = ProtocolVersion.TLSv13.downTo(ProtocolVersion.TLSv10)
+}

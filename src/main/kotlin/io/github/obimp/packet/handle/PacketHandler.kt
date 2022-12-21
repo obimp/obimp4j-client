@@ -18,7 +18,7 @@
 
 package io.github.obimp.packet.handle
 
-import io.github.obimp.connection.Connection
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.DataStructure
 import io.github.obimp.packet.Packet
 
@@ -26,6 +26,6 @@ import io.github.obimp.packet.Packet
 /**
  * @author Alexander Krysin
  */
-interface PacketHandler<T: DataStructure<*>> {
-    fun handlePacket(connection: Connection<T>, packet: Packet<T>)
+internal interface PacketHandler<T: DataStructure<*>> {
+    fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<T>)
 }

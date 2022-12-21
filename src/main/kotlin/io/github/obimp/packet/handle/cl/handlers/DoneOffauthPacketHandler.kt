@@ -18,19 +18,19 @@
 
 package io.github.obimp.packet.handle.cl.handlers
 
-import io.github.obimp.connection.Connection
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.packet.ObimpPacket
 import io.github.obimp.packet.Packet
-import io.github.obimp.packet.handle.ObimpPacketHandler.Companion.OBIMP_BEX_CL
+import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_CL
 import io.github.obimp.packet.handle.PacketHandler
 import io.github.obimp.packet.handle.cl.ContactListPacketHandler.Companion.OBIMP_BEX_CL_CLI_DEL_OFFAUTH
 
 /**
  * @author Alexander Krysin
  */
-class DoneOffauthPacketHandler : PacketHandler<WTLD> {
-    override fun handlePacket(connection: Connection<WTLD>, packet: Packet<WTLD>) {
+internal class DoneOffauthPacketHandler : PacketHandler<WTLD> {
+    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         connection.sendPacket(ObimpPacket(OBIMP_BEX_CL, OBIMP_BEX_CL_CLI_DEL_OFFAUTH))
     }
 }

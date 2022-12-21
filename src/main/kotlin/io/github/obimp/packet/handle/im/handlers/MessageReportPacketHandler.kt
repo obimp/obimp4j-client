@@ -18,8 +18,7 @@
 
 package io.github.obimp.packet.handle.im.handlers
 
-import io.github.obimp.connection.Connection
-import io.github.obimp.connection.getListeners
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.structure.readDataType
 import io.github.obimp.data.type.LongWord
@@ -31,8 +30,8 @@ import io.github.obimp.packet.handle.PacketHandler
 /**
  * @author Alexander Krysin
  */
-class MessageReportPacketHandler : PacketHandler<WTLD> {
-    override fun handlePacket(connection: Connection<WTLD>, packet: Packet<WTLD>) {
+internal class MessageReportPacketHandler : PacketHandler<WTLD> {
+    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         val accountName = packet.nextItem().readDataType<UTF8>().value
         val messageId = packet.nextItem().readDataType<LongWord>().value
 

@@ -19,13 +19,12 @@
 package io.github.obimp.listener
 
 import io.github.obimp.common.*
-import java.util.*
 
 /**
  * Common listener
  * @author Alexander Krysin
  */
-interface CommonListener : EventListener {
+interface CommonListener : OBIMPEventListener {
     /**
      * Connect error callback
      */

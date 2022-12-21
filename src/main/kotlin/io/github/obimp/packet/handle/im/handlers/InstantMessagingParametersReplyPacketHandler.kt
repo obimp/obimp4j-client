@@ -18,7 +18,7 @@
 
 package io.github.obimp.packet.handle.im.handlers
 
-import io.github.obimp.connection.Connection
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.packet.Packet
 import io.github.obimp.packet.handle.PacketHandler
@@ -26,8 +26,8 @@ import io.github.obimp.packet.handle.PacketHandler
 /**
  * @author Alexander Krysin
  */
-class InstantMessagingParametersReplyPacketHandler : PacketHandler<WTLD> {
-    override fun handlePacket(connection: Connection<WTLD>, packet: Packet<WTLD>) {
+internal class InstantMessagingParametersReplyPacketHandler : PacketHandler<WTLD> {
+    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
 
     }
 }

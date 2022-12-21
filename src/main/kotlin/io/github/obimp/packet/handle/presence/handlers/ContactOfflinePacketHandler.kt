@@ -18,8 +18,7 @@
 
 package io.github.obimp.packet.handle.presence.handlers
 
-import io.github.obimp.connection.Connection
-import io.github.obimp.connection.getListeners
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.structure.readDataType
 import io.github.obimp.data.type.UTF8
@@ -30,8 +29,8 @@ import io.github.obimp.packet.handle.PacketHandler
 /**
  * @author Alexander Krysin
  */
-class ContactOfflinePacketHandler : PacketHandler<WTLD> {
-    override fun handlePacket(connection: Connection<WTLD>, packet: Packet<WTLD>) {
+internal class ContactOfflinePacketHandler : PacketHandler<WTLD> {
+    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         val accountName = packet.nextItem().readDataType<UTF8>().value
         for (usl in connection.getListeners<PresenceInfoListener>()) {
             usl.onContactOffline(accountName)

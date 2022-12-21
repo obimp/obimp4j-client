@@ -18,7 +18,7 @@
 
 package io.github.obimp.packet.handle.im
 
-import io.github.obimp.connection.Connection
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.packet.Packet
 import io.github.obimp.packet.handle.PacketHandler
@@ -27,7 +27,7 @@ import io.github.obimp.packet.handle.im.handlers.*
 /**
  * @author Alexander Krysin
  */
-class InstantMessagingPacketHandler : PacketHandler<WTLD> {
+internal class InstantMessagingPacketHandler : PacketHandler<WTLD> {
     private val bexSubtypeToPacketHandler = mapOf(
         Pair(OBIMP_BEX_IM_SRV_PARAMS_REPLY, InstantMessagingParametersReplyPacketHandler()),
         Pair(OBIMP_BEX_IM_SRV_DONE_OFFLINE, DoneOfflinePacketHandler()),
@@ -38,7 +38,7 @@ class InstantMessagingPacketHandler : PacketHandler<WTLD> {
         Pair(OBIMP_BEX_IM_CLI_SRV_ENCRYPT_KEY_REPLY, EncryptionKeyReplyPacketHandler())
     )
 
-    override fun handlePacket(connection: Connection<WTLD>, packet: Packet<WTLD>) {
+    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         bexSubtypeToPacketHandler[packet.getSubtype()]?.handlePacket(connection, packet)
     }
 

@@ -18,8 +18,7 @@
 
 package io.github.obimp.packet.handle.ud.handlers
 
-import io.github.obimp.connection.Connection
-import io.github.obimp.connection.getListeners
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.structure.readDataType
 import io.github.obimp.data.type.Byte
@@ -37,13 +36,13 @@ import io.github.obimp.ud.SearchResultItem
 /**
  * @author Alexander Krysin
  */
-class SearchReplyPacketHandler : PacketHandler<WTLD> {
-    override fun handlePacket(connection: Connection<WTLD>, packet: Packet<WTLD>) {
+internal class SearchReplyPacketHandler : PacketHandler<WTLD> {
+    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         val searchResult = SearchResult.byCode(packet.nextItem().readDataType<Word>().value)
         var searchResultItem: SearchResultItem? = null
 
         if (searchResult == SearchResult.SUCCESS) {
-            searchResultItem = SearchResultItem(searchResult)
+            searchResultItem = SearchResultItem()
 
             while (packet.hasItems()) {
                 val wtld = packet.nextItem()

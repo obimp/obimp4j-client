@@ -21,13 +21,12 @@ package io.github.obimp.listener
 import io.github.obimp.ua.AvatarResult
 import io.github.obimp.ua.AvatarSetResult
 import io.github.obimp.ua.UserAvatarsParameters
-import java.util.*
 
 /**
  * User avatars listener
  * @author Alexander Krysin
  */
-interface UserAvatarsListener : EventListener {
+interface UserAvatarsListener : OBIMPEventListener {
     /**
      * User avatars parameters callback
      * @param userAvatarsParameters User avatars parameters

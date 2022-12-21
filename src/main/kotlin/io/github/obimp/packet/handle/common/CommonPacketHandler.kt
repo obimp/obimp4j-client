@@ -18,7 +18,7 @@
 
 package io.github.obimp.packet.handle.common
 
-import io.github.obimp.connection.Connection
+import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.packet.Packet
 import io.github.obimp.packet.handle.PacketHandler
@@ -27,7 +27,7 @@ import io.github.obimp.packet.handle.common.handlers.*
 /**
  * @author Alexander Krysin
  */
-class CommonPacketHandler : PacketHandler<WTLD> {
+internal class CommonPacketHandler : PacketHandler<WTLD> {
     private val bexSubtypeToPacketHandler = mapOf(
         Pair(OBIMP_BEX_COM_SRV_HELLO, HelloPacketHandler()),
         Pair(OBIMP_BEX_COM_SRV_LOGIN_REPLY, LoginReplyPacketHandler()),
@@ -37,7 +37,7 @@ class CommonPacketHandler : PacketHandler<WTLD> {
         Pair(OBIMP_BEX_COM_SRV_REGISTER_REPLY, RegisterReplyPacketHandler())
     )
 
-    override fun handlePacket(connection: Connection<WTLD>, packet: Packet<WTLD>) {
+    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         bexSubtypeToPacketHandler[packet.getSubtype()]?.handlePacket(connection, packet)
     }
 
