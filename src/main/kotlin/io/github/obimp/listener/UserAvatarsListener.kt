@@ -31,17 +31,17 @@ interface UserAvatarsListener : OBIMPEventListener {
      * User avatars parameters callback
      * @param userAvatarsParameters User avatars parameters
      */
-    fun userAvatarsParameters(userAvatarsParameters: UserAvatarsParameters)
+    fun userAvatarsParameters(userAvatarsParameters: UserAvatarsParameters) {}
 
     /**
      * Avatar callback
      * @param avatarResult Avatar result
      */
-    fun onAvatar(avatarResult: AvatarResult)
+    fun onAvatar(avatarResult: AvatarResult) {}
 
     /**
      * Set avatar callback
      * @param avatarSetResult Avatar set result
      */
-    fun onSetAvatar(avatarSetResult: AvatarSetResult)
+    fun onSetAvatar(avatarSetResult: AvatarSetResult) {}
 }

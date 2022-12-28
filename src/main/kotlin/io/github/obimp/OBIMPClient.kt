@@ -20,7 +20,13 @@ package io.github.obimp
 
 import io.github.obimp.connection.PlainOBIMPConnection
 import io.github.obimp.connection.SecureOBIMPConnection
+import io.github.obimp.im.MessageType
+import io.github.obimp.im.NotificationType
+import io.github.obimp.im.NotificationValue
 import io.github.obimp.listener.*
+import io.github.obimp.packet.ClientMessagePacket
+import io.github.obimp.packet.ClientServerNotifyPacket
+import io.github.obimp.packet.ClientUserAvatarRequestPacket
 
 /**
  * OBIMP Client
@@ -32,6 +38,8 @@ class OBIMPClient(secure: Boolean, configure: ClientConfiguration.() -> Unit = {
         secure -> SecureOBIMPConnection(configuration)
         else -> PlainOBIMPConnection(configuration)
     }
+    private var messageID = 1
+        get() = field++
 
     init {
         configuration.configure()
@@ -83,5 +91,17 @@ class OBIMPClient(secure: Boolean, configure: ClientConfiguration.() -> Unit = {
 
     override fun login(username: String, password: String) {
         connection.login(username, password)
+    }
+
+    fun notify(accountName: String, notificationType: NotificationType, notificationValue: NotificationValue) {
+        connection.sendPacket(ClientServerNotifyPacket(accountName, notificationType, notificationValue))
+    }
+
+    fun sendMessage(accountName: String, text: String) {
+        connection.sendPacket(ClientMessagePacket(accountName, messageID, MessageType.UTF8, text.encodeToByteArray()))
+    }
+
+    fun loadAvatar(avatarFileMD5Hash: ByteArray) {
+        connection.sendPacket(ClientUserAvatarRequestPacket(avatarFileMD5Hash))
     }
 }

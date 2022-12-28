@@ -29,34 +29,39 @@ interface TransportsListener : OBIMPEventListener {
      * Transports parameters callback
      * @param transportsParameters Transports parameters
      */
-    fun onTransportsParameters(transportsParameters: TransportsParameters)
+    fun onTransportsParameters(transportsParameters: TransportsParameters) {}
 
     /**
      * Transport ready callback
      * @param transportID Transport ID
      * @param transportOptions Transport options
      */
-    fun onTransportReady(transportID: Int, transportOptions: TransportOptions)
+    fun onTransportReady(transportID: Int, transportOptions: TransportOptions) {}
 
     /**
      * Update transport setting callback
      * @param transportID Transport ID
      * @param transportSettingsUpdateResult Transport setting update result
      */
-    fun onUpdateTransportSetting(transportID: Int, transportSettingsUpdateResult: TransportSettingsUpdateResult)
+    fun onUpdateTransportSetting(transportID: Int, transportSettingsUpdateResult: TransportSettingsUpdateResult) {}
 
     /**
      * Transport info callback
      * @param transportID Transport ID
      * @param transportState Transport state
      */
-    fun onTransportInfo(transportID: Int, transportState: TransportState)
+    fun onTransportInfo(transportID: Int, transportState: TransportState) {}
 
     /**
      * Show notification callback
      * @param transportNotification Transport notification
      */
-    fun onShowNotification(transportNotification: TransportNotification)
+    fun onShowNotification(transportNotification: TransportNotification) {}
 
-    fun onOwnAvatarHash(transportID: Int, avatarMD5Hash: ByteArray)
+    /**
+     * Own avatar hash callback
+     * @param transportID Transport ID
+     * @param avatarMD5Hash Avatar MD5 hash
+     */
+    fun onOwnAvatarHash(transportID: Int, avatarMD5Hash: ByteArray) {}
 }

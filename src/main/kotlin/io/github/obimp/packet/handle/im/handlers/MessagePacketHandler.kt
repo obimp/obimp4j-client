@@ -28,7 +28,7 @@ import io.github.obimp.im.IncomingMessage
 import io.github.obimp.im.MessageType
 import io.github.obimp.im.SystemMessagePopupPosition
 import io.github.obimp.listener.InstantMessagingListener
-import io.github.obimp.packet.ObimpPacket
+import io.github.obimp.packet.OBIMPPacket
 import io.github.obimp.packet.Packet
 import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_IM
 import io.github.obimp.packet.handle.PacketHandler
@@ -91,7 +91,7 @@ internal class MessagePacketHandler : PacketHandler<WTLD> {
             val wtld = packet.nextItem()
             when (wtld.getType()) {
                 0x0005 -> {
-                    val msgReport = ObimpPacket(OBIMP_BEX_IM, OBIMP_BEX_IM_CLI_SRV_MSG_REPORT)
+                    val msgReport = OBIMPPacket(OBIMP_BEX_IM, OBIMP_BEX_IM_CLI_SRV_MSG_REPORT)
                     msgReport.addItem(WTLD(LongWord(0x0001), UTF8(connection.username)))
                     msgReport.addItem(WTLD(LongWord(0x0002), LongWord(messageId)))
                     connection.sendPacket(msgReport)

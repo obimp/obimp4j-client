@@ -25,7 +25,7 @@ import io.github.obimp.data.structure.readDataType
 import io.github.obimp.data.type.*
 import io.github.obimp.data.type.Byte
 import io.github.obimp.listener.ContactListListener
-import io.github.obimp.packet.ObimpPacket
+import io.github.obimp.packet.OBIMPPacket
 import io.github.obimp.packet.Packet
 import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_PRES
 import io.github.obimp.packet.handle.PacketHandler
@@ -52,7 +52,7 @@ internal class ReplyPacketHandler : PacketHandler<WTLD> {
 
             activated = true
 
-            val presInfo = ObimpPacket(OBIMP_BEX_PRES, OBIMP_BEX_PRES_CLI_SET_PRES_INFO)
+            val presInfo = OBIMPPacket(OBIMP_BEX_PRES, OBIMP_BEX_PRES_CLI_SET_PRES_INFO)
             presInfo.addItem(
                 WTLD(
                     LongWord(0x0001),
@@ -77,11 +77,11 @@ internal class ReplyPacketHandler : PacketHandler<WTLD> {
             }
             connection.sendPacket(presInfo)
 
-            val setStatus = ObimpPacket(OBIMP_BEX_PRES, OBIMP_BEX_PRES_CLI_SET_STATUS)
+            val setStatus = OBIMPPacket(OBIMP_BEX_PRES, OBIMP_BEX_PRES_CLI_SET_STATUS)
             setStatus.addItem(WTLD(LongWord(0x0001), LongWord(Status.ONLINE.value)))
             connection.sendPacket(setStatus)
 
-            connection.sendPacket(ObimpPacket(OBIMP_BEX_PRES, OBIMP_BEX_PRES_CLI_ACTIVATE))
+            connection.sendPacket(OBIMPPacket(OBIMP_BEX_PRES, OBIMP_BEX_PRES_CLI_ACTIVATE))
         }
     }
 

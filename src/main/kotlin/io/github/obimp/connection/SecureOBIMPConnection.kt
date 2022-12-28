@@ -41,8 +41,6 @@ internal class SecureOBIMPConnection(configuration: ClientConfiguration) : Abstr
                 try {
                     if (selectionKey.isConnectable) {
                         channel.finishConnect()
-                        TLSProcessor.register(protocol, this)
-                        TLSProcessor.start()
                         protocol.connect(OBIMPTlsClient(hostname))
                     } else if (selectionKey.isReadable) {
                         val buffer = ByteBuffer.allocate(32)
@@ -69,7 +67,9 @@ internal class SecureOBIMPConnection(configuration: ClientConfiguration) : Abstr
                     }
                 }
             })
+            TLSProcessor.register(protocol, this)
             Selector.start()
+            TLSProcessor.start()
             channel.connect(InetSocketAddress(hostname, port))
         } catch (e: Exception) {
             close()

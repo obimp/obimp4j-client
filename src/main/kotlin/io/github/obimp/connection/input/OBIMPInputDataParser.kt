@@ -21,10 +21,10 @@ package io.github.obimp.connection.input
 import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.type.LongWord
-import io.github.obimp.packet.ObimpPacket
+import io.github.obimp.packet.OBIMPPacket
 import io.github.obimp.packet.handle.OBIMPPacketHandler
 import io.github.obimp.packet.header.Header
-import io.github.obimp.packet.header.ObimpHeader
+import io.github.obimp.packet.header.OBIMPHeader
 import java.nio.ByteBuffer
 
 /**
@@ -108,11 +108,11 @@ internal object OBIMPInputDataParser : InputDataParser {
         val subtype = buffer.short
         val requestID = buffer.int
         val contentLength = buffer.int
-        return ObimpHeader(sequence, type, subtype, requestID, contentLength)
+        return OBIMPHeader(sequence, type, subtype, requestID, contentLength)
     }
 
     private fun parseBody(connection: AbstractOBIMPConnection, header: Header, buffer: ByteBuffer) {
-        val packet = ObimpPacket(header.type, header.subtype)
+        val packet = OBIMPPacket(header.type, header.subtype)
         packet.header = header
         if (header.contentLength > 0) {
             while (buffer.hasRemaining()) {

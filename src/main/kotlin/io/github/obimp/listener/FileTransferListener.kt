@@ -29,52 +29,52 @@ interface FileTransferListener : OBIMPEventListener {
      * File transfer parameters callback
      * @param fileTransferParameters File transfer parameters
      */
-    fun onFileTransferParameters(fileTransferParameters: FileTransferParameters)
+    fun onFileTransferParameters(fileTransferParameters: FileTransferParameters) {}
 
     /**
      * Send file request callback
      * @param sendFileRequest Send file request
      */
-    fun onSendFileRequest(sendFileRequest: SendFileRequest)
+    fun onSendFileRequest(sendFileRequest: SendFileRequest) {}
 
     /**
      * Send file reply callback
      * @param sendFileReply Send file reply
      */
-    fun onSendFileReply(sendFileReply: SendFileReply)
+    fun onSendFileReply(sendFileReply: SendFileReply) {}
 
     /**
      * Control callback
      * @param fileTransferControlMessage File transfer control message
      */
-    fun onControl(fileTransferControlMessage: FileTransferControlMessage)
+    fun onControl(fileTransferControlMessage: FileTransferControlMessage) {}
 
     /**
      * Error callback
      * @param fileTransferError File transfer error
      */
-    fun onError(fileTransferError: FileTransferErrorType)
+    fun onError(fileTransferError: FileTransferErrorType) {}
 
     /**
      * Hello callback
      */
-    fun onHello(accountName: String, fileTransferID: Long)
+    fun onHello(accountName: String, fileTransferID: Long) {}
 
     /**
      * File callback
      * @param fileTransferFileInfo File transfer file info
      */
-    fun onFile(fileTransferFileInfo: FileTransferFileInfo)
+    fun onFile(fileTransferFileInfo: FileTransferFileInfo) {}
 
     /**
      * File reply callback
      * @param fileTransferFileReply File transfer file reply
      */
-    fun onFileReply(fileTransferFileReply: FileTransferFileReply)
+    fun onFileReply(fileTransferFileReply: FileTransferFileReply) {}
 
     /**
      * File data callback
      * @param fileData File data
      */
-    fun onFileData(fileData: FileTransferFileData)
+    fun onFileData(fileData: FileTransferFileData) {}
 }

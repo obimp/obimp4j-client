@@ -16,21 +16,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package io.github.obimp.packet.handle.im.handlers
+package io.github.obimp.packet
 
-import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
-import io.github.obimp.packet.OBIMPPacket
-import io.github.obimp.packet.Packet
+import io.github.obimp.data.type.LongWord
+import io.github.obimp.data.type.UTF8
+import io.github.obimp.packet.body.Body
+import io.github.obimp.packet.body.OBIMPBody
 import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_IM
-import io.github.obimp.packet.handle.PacketHandler
-import io.github.obimp.packet.handle.im.InstantMessagingPacketHandler.Companion.OBIMP_BEX_IM_CLI_DEL_OFFLINE
+import io.github.obimp.packet.handle.im.InstantMessagingPacketHandler.Companion.OBIMP_BEX_IM_CLI_MULTIPLE_MSG
+import io.github.obimp.packet.header.Header
+import io.github.obimp.packet.header.OBIMPHeader
 
 /**
  * @author Alexander Krysin
  */
-internal class DoneOfflinePacketHandler : PacketHandler<WTLD> {
-    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
-        connection.sendPacket(OBIMPPacket(OBIMP_BEX_IM, OBIMP_BEX_IM_CLI_DEL_OFFLINE))
+class ClientMultipleMessagePacket(accountNames: List<String>, messageText: String) : Packet<WTLD> {
+    override var header: Header = OBIMPHeader(type = OBIMP_BEX_IM, subtype = OBIMP_BEX_IM_CLI_MULTIPLE_MSG)
+    override var body: Body<WTLD> = OBIMPBody()
+
+    init {
+        body.content.add(WTLD(LongWord(0x0001), *accountNames.map(::UTF8).toTypedArray()))
+        body.content.add(WTLD(LongWord(0x0002), UTF8(messageText)))
     }
 }

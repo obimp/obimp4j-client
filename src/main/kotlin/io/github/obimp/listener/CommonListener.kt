@@ -28,45 +28,45 @@ interface CommonListener : OBIMPEventListener {
     /**
      * Connect error callback
      */
-    fun onConnectError()
+    fun onConnectError() {}
 
     /**
      * Success connect callback
      */
-    fun onConnect()
+    fun onConnect() {}
 
     /**
      * Hello error callback
      * @param helloError Hello error
      */
-    fun onHelloError(helloError: HelloError)
+    fun onHelloError(helloError: HelloError) {}
 
     /**
      * Login error callback
      * @param loginError Login error
      */
-    fun onLoginError(loginError: LoginError)
+    fun onLoginError(loginError: LoginError) {}
 
     /**
      * Success login callback
      */
-    fun onLogin()
+    fun onLogin() {}
 
     /**
      * Disconnect callback
      * @param disconnectReason Disconnect reason
      */
-    fun onDisconnect(disconnectReason: DisconnectReason)
+    fun onDisconnect(disconnectReason: DisconnectReason) {}
 
     /**
      * Disconnect by server callback
      * @param byeReason Bye reason
      */
-    fun onDisconnectByServer(byeReason: ByeReason)
+    fun onDisconnectByServer(byeReason: ByeReason) {}
 
     /**
      * Registration result callback
      * @param registrationResult Registration result
      */
-    fun onRegistrationResult(registrationResult: RegistrationResult)
+    fun onRegistrationResult(registrationResult: RegistrationResult) {}
 }

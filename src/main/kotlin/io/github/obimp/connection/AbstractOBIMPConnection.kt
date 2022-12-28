@@ -21,19 +21,10 @@ package io.github.obimp.connection
 import io.github.obimp.ClientConfiguration
 import io.github.obimp.common.DisconnectReason
 import io.github.obimp.data.structure.DataStructure
-import io.github.obimp.data.structure.WTLD
-import io.github.obimp.data.type.BLK
-import io.github.obimp.data.type.LongWord
-import io.github.obimp.data.type.OctaWord
-import io.github.obimp.data.type.UTF8
 import io.github.obimp.listener.CommonListener
-import io.github.obimp.packet.ObimpPacket
+import io.github.obimp.packet.ClientHelloPacket
+import io.github.obimp.packet.ClientLoginPacket
 import io.github.obimp.packet.Packet
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_COM
-import io.github.obimp.packet.handle.common.CommonPacketHandler.Companion.OBIMP_BEX_COM_CLI_HELLO
-import io.github.obimp.packet.handle.common.CommonPacketHandler.Companion.OBIMP_BEX_COM_CLI_LOGIN
-import io.github.obimp.util.HashUtils
-import java.nio.ByteBuffer
 import java.nio.channels.SocketChannel
 
 /**
@@ -65,28 +56,15 @@ internal abstract class AbstractOBIMPConnection(
     override fun login(username: String, password: String) {
         this.username = username
         this.password = password
-        val packet = ObimpPacket(OBIMP_BEX_COM, OBIMP_BEX_COM_CLI_HELLO)
-        packet.addItem(WTLD(LongWord(0x0001), UTF8(username)))
-        sendPacket(packet)
+        sendPacket(ClientHelloPacket(username))
     }
 
     override fun plaintextLogin() {
-        val login = ObimpPacket(OBIMP_BEX_COM, OBIMP_BEX_COM_CLI_LOGIN)
-        login.addItem(WTLD(LongWord(0x0001), UTF8(username)))
-        login.addItem(WTLD(LongWord(0x0003), BLK(ByteBuffer.wrap(HashUtils.base64(password)))))
-        sendPacket(login)
+        sendPacket(ClientLoginPacket(username, password))
     }
 
     override fun hashLogin(serverKey: ByteArray) {
-        val login = ObimpPacket(OBIMP_BEX_COM, OBIMP_BEX_COM_CLI_LOGIN)
-        login.addItem(WTLD(LongWord(0x0001), UTF8(username)))
-        login.addItem(
-            WTLD(
-                LongWord(0x0002),
-                OctaWord(ByteBuffer.wrap(HashUtils.md5(HashUtils.md5(username + SALT + password) + serverKey)))
-            )
-        )
-        sendPacket(login)
+        sendPacket(ClientLoginPacket(username, password, serverKey))
     }
 
     override fun disconnect() {
@@ -99,9 +77,5 @@ internal abstract class AbstractOBIMPConnection(
     protected fun close() {
         channel.close()
         Selector.stop()
-    }
-
-    companion object {
-        internal const val SALT = "OBIMPSALT"
     }
 }

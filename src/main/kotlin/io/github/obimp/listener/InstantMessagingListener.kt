@@ -32,42 +32,42 @@ interface InstantMessagingListener : OBIMPEventListener {
      * Instant messaging parameters callback
      * @param instantMessagingParameters Instant messaging parameters
      */
-    fun onInstantMessagingParameters(instantMessagingParameters: InstantMessagingParameters)
+    fun onInstantMessagingParameters(instantMessagingParameters: InstantMessagingParameters) {}
 
     /**
      * Offline messages done callback
      */
-    fun onOfflineDone()
+    fun onOfflineDone() {}
 
     /**
      * Incoming message callback
      * @param incomingMessage Message
      */
-    fun onIncomingMessage(incomingMessage: IncomingMessage)
+    fun onIncomingMessage(incomingMessage: IncomingMessage) {}
 
     /**
      * Message report callback
      * @param accountName Account name
      * @param messageId Message ID
      */
-    fun onMessageReport(accountName: String, messageId: Int)
+    fun onMessageReport(accountName: String, messageId: Int) {}
 
     /**
      * Notify callback
      * @param notification Notification
      */
-    fun onNotify(notification: Notification)
+    fun onNotify(notification: Notification) {}
 
     /**
      * Encryption key request callback
      * @param accountName Account name
      */
-    fun onEncryptionKeyRequest(accountName: String)
+    fun onEncryptionKeyRequest(accountName: String) {}
 
     /**
      * Encryption key reply callback
      * @param accountName Account name
      * @param encryptionKeyReply Encryption key reply
      */
-    fun onEncryptionKeyReply(accountName: String, encryptionKeyReply: EncryptionKeyReply)
+    fun onEncryptionKeyReply(accountName: String, encryptionKeyReply: EncryptionKeyReply) {}
 }

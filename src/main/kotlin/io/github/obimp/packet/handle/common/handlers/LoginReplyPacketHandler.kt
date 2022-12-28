@@ -25,7 +25,7 @@ import io.github.obimp.data.structure.readDataType
 import io.github.obimp.data.structure.readDataTypeList
 import io.github.obimp.data.type.Word
 import io.github.obimp.listener.CommonListener
-import io.github.obimp.packet.ObimpPacket
+import io.github.obimp.packet.OBIMPPacket
 import io.github.obimp.packet.Packet
 import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_CL
 import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_FT
@@ -68,16 +68,16 @@ internal class LoginReplyPacketHandler : PacketHandler<WTLD> {
             }
             for (bexType in serverSupportedBexs.keys) {
                 when (bexType) {
-                    OBIMP_BEX_CL -> connection.sendPacket(ObimpPacket(OBIMP_BEX_CL, OBIMP_BEX_CL_CLI_PARAMS))
-                    OBIMP_BEX_PRES -> connection.sendPacket(ObimpPacket(OBIMP_BEX_PRES, OBIMP_BEX_PRES_CLI_PARAMS))
-                    OBIMP_BEX_IM -> connection.sendPacket(ObimpPacket(OBIMP_BEX_IM, OBIMP_BEX_IM_CLI_PARAMS))
-                    OBIMP_BEX_UD -> connection.sendPacket(ObimpPacket(OBIMP_BEX_UD, OBIMP_BEX_UD_CLI_PARAMS))
-                    OBIMP_BEX_UA -> connection.sendPacket(ObimpPacket(OBIMP_BEX_UA, OBIMP_BEX_UA_CLI_PARAMS))
-                    OBIMP_BEX_FT -> connection.sendPacket(ObimpPacket(OBIMP_BEX_FT, OBIMP_BEX_FT_CLI_PARAMS))
-                    OBIMP_BEX_TP -> connection.sendPacket(ObimpPacket(OBIMP_BEX_TP, OBIMP_BEX_TP_CLI_PARAMS))
+                    OBIMP_BEX_CL -> connection.sendPacket(OBIMPPacket(OBIMP_BEX_CL, OBIMP_BEX_CL_CLI_PARAMS))
+                    OBIMP_BEX_PRES -> connection.sendPacket(OBIMPPacket(OBIMP_BEX_PRES, OBIMP_BEX_PRES_CLI_PARAMS))
+                    OBIMP_BEX_IM -> connection.sendPacket(OBIMPPacket(OBIMP_BEX_IM, OBIMP_BEX_IM_CLI_PARAMS))
+                    OBIMP_BEX_UD -> connection.sendPacket(OBIMPPacket(OBIMP_BEX_UD, OBIMP_BEX_UD_CLI_PARAMS))
+                    OBIMP_BEX_UA -> connection.sendPacket(OBIMPPacket(OBIMP_BEX_UA, OBIMP_BEX_UA_CLI_PARAMS))
+                    OBIMP_BEX_FT -> connection.sendPacket(OBIMPPacket(OBIMP_BEX_FT, OBIMP_BEX_FT_CLI_PARAMS))
+                    OBIMP_BEX_TP -> connection.sendPacket(OBIMPPacket(OBIMP_BEX_TP, OBIMP_BEX_TP_CLI_PARAMS))
                 }
             }
-            connection.sendPacket(ObimpPacket(OBIMP_BEX_PRES, OBIMP_BEX_PRES_CLI_REQ_PRES_INFO))
+            connection.sendPacket(OBIMPPacket(OBIMP_BEX_PRES, OBIMP_BEX_PRES_CLI_REQ_PRES_INFO))
         }
     }
 }

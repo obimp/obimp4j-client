@@ -32,34 +32,34 @@ interface PresenceInfoListener : OBIMPEventListener {
      * Presence info parameters callback
      * @param presenceInfoParameters Presence info parameters
      */
-    fun onPresenceInfoParameters(presenceInfoParameters: PresenceInfoParameters)
+    fun onPresenceInfoParameters(presenceInfoParameters: PresenceInfoParameters) {}
     /**
      * Contact online callback
      * @param onlineContactInfo Online contact info
      */
-    fun onContactOnline(onlineContactInfo: OnlineContactInfo)
+    fun onContactOnline(onlineContactInfo: OnlineContactInfo) {}
 
     /**
      * Contact offline callback
      * @param accountName Account name
      */
-    fun onContactOffline(accountName: String)
+    fun onContactOffline(accountName: String) {}
 
     /**
      * Presence info callback
      * @param presenceInfo Presence info
      */
-    fun onPresenceInfo(presenceInfo: PresenceInfo)
+    fun onPresenceInfo(presenceInfo: PresenceInfo) {}
 
     /**
      * Mail notification callback
      * @param mailNotification Mail notification
      */
-    fun onMailNotification(mailNotification: MailNotification)
+    fun onMailNotification(mailNotification: MailNotification) {}
 
     /**
      * Own mail URL callback
      * @param ownMailURL Own mail URL
      */
-    fun onOwnMailURL(ownMailURL: String)
+    fun onOwnMailURL(ownMailURL: String) {}
 }

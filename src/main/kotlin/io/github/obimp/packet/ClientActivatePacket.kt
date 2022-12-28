@@ -16,21 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package io.github.obimp.packet.handle.common.handlers
+package io.github.obimp.packet
 
-import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
-import io.github.obimp.packet.OBIMPPacket
-import io.github.obimp.packet.Packet
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_COM
-import io.github.obimp.packet.handle.PacketHandler
-import io.github.obimp.packet.handle.common.CommonPacketHandler.Companion.OBIMP_BEX_COM_CLI_SRV_KEEPALIVE_PONG
+import io.github.obimp.packet.body.Body
+import io.github.obimp.packet.body.OBIMPBody
+import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_PRES
+import io.github.obimp.packet.handle.presence.PresencePacketHandler.Companion.OBIMP_BEX_PRES_CLI_ACTIVATE
+import io.github.obimp.packet.header.Header
+import io.github.obimp.packet.header.OBIMPHeader
 
 /**
  * @author Alexander Krysin
  */
-internal class KeepalivePingPacketHandler : PacketHandler<WTLD> {
-    override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
-        connection.sendPacket(OBIMPPacket(OBIMP_BEX_COM, OBIMP_BEX_COM_CLI_SRV_KEEPALIVE_PONG))
-    }
+class ClientActivatePacket : Packet<WTLD> {
+    override var header: Header = OBIMPHeader(type = OBIMP_BEX_PRES, subtype = OBIMP_BEX_PRES_CLI_ACTIVATE)
+    override var body: Body<WTLD> = OBIMPBody()
 }

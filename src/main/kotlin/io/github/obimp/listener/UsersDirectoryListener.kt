@@ -29,29 +29,29 @@ interface UsersDirectoryListener : OBIMPEventListener {
      * Users directory parameters
      * @param usersDirectoryParameters Users directory parameters
      */
-    fun onUsersDirectoryParameters(usersDirectoryParameters: UsersDirectoryParameters)
+    fun onUsersDirectoryParameters(usersDirectoryParameters: UsersDirectoryParameters) {}
 
     /**
      * User details callback
      * @param userDetailsReply User details reply
      */
-    fun onDetails(userDetailsReply: UserDetailsReply)
+    fun onDetails(userDetailsReply: UserDetailsReply) {}
 
     /**
      * User details update callback
      * @param updateDetailsResult Update details result
      */
-    fun onUpdateDetails(updateDetailsResult: UpdateDetailsResult)
+    fun onUpdateDetails(updateDetailsResult: UpdateDetailsResult) {}
 
     /**
      * Search result loaded callback
      * @param searchReply Search reply
      */
-    fun onSearch(searchReply: SearchReply)
+    fun onSearch(searchReply: SearchReply) {}
 
     /**
      * Update secure callback
      * @param secureUpdateResult Secure update result
      */
-    fun onUpdateSecure(secureUpdateResult: SecureUpdateResult)
+    fun onUpdateSecure(secureUpdateResult: SecureUpdateResult) {}
 }

@@ -29,78 +29,78 @@ interface ContactListListener : OBIMPEventListener {
      * Contact list parameters callback
      * @param contactListParameters Contact list parameters
      */
-    fun onContactListParameters(contactListParameters: ContactListParameters)
+    fun onContactListParameters(contactListParameters: ContactListParameters) {}
 
     /**
      * Contact list loaded callback
      * @param items Contact list items
      */
-    fun onContactListLoaded(items: List<ContactListItem>)
+    fun onContactListLoaded(items: List<ContactListItem>) {}
 
     /**
      * Contact list verify callback
      * @param contactListMD5Hash Contact list MD5 hash
      */
-    fun onContactListVerify(contactListMD5Hash: ByteArray)
+    fun onContactListVerify(contactListMD5Hash: ByteArray) {}
 
     /**
      * Add contact list item callback
      * @param contactListItemAddingResult Contact list item adding result
      */
-    fun onAddContactListItem(contactListItemAddingResult: AddingResult)
+    fun onAddContactListItem(contactListItemAddingResult: AddingResult) {}
 
     /**
      * Delete contact list item callback
      * @param contactListItemDeletionResult Contact list item deletion result
      */
-    fun onDeleteContactListItem(contactListItemDeletionResult: DeletionResult)
+    fun onDeleteContactListItem(contactListItemDeletionResult: DeletionResult) {}
 
     /**
      * Update contact list item callback
      * @param contactListItemUpdateOperationResult Contact list item update operation result
      */
-    fun onUpdateContactListItem(contactListItemUpdateOperationResult: UpdateOperationResult)
+    fun onUpdateContactListItem(contactListItemUpdateOperationResult: UpdateOperationResult) {}
 
     /**
      * Authorization request callback
      * @param accountName Account name
      * @param reason Reason
      */
-    fun onAuthorizationRequest(accountName: String, reason: String)
+    fun onAuthorizationRequest(accountName: String, reason: String) {}
 
     /**
      * Authorization reply callback
      * @param accountName Account name
      * @param authorizationReply Authorization reply
      */
-    fun onAuthorizationReply(accountName: String, authorizationReply: AuthorizationReply)
+    fun onAuthorizationReply(accountName: String, authorizationReply: AuthorizationReply) {}
 
     /**
      * Authorization revoke callback
      * @param accountName Account name
      * @param reason Reason
      */
-    fun onAuthorizationRevoke(accountName: String, reason: String)
+    fun onAuthorizationRevoke(accountName: String, reason: String) {}
 
     /**
      * Offline authorization requests/replies/revokes done callback
      */
-    fun onOffauthDone()
+    fun onOffauthDone() {}
 
     /**
      * Contact list item operation callback
      * @param contactListItem Contact list item
      * @param operation Contact list item operation
      */
-    fun onContactListItemOperation(contactListItem: ContactListItem, operation: Operation)
+    fun onContactListItemOperation(contactListItem: ContactListItem, operation: Operation) {}
 
     /**
      * Begin server-side contact list item operations callback
      */
-    fun onBeginUpdate()
+    fun onBeginUpdate() {}
 
     /**
      * End of server-side contact list item operations callback
      */
-    fun onEndUpdate()
+    fun onEndUpdate() {}
 }
