@@ -20,6 +20,12 @@ package io.github.obimp.packet.handle.common
 
 import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
+import io.github.obimp.packet.OBIMPPacket.Companion.OBIMP_BEX_COM_CLI_SRV_KEEPALIVE_PING
+import io.github.obimp.packet.OBIMPPacket.Companion.OBIMP_BEX_COM_CLI_SRV_KEEPALIVE_PONG
+import io.github.obimp.packet.OBIMPPacket.Companion.OBIMP_BEX_COM_SRV_BYE
+import io.github.obimp.packet.OBIMPPacket.Companion.OBIMP_BEX_COM_SRV_HELLO
+import io.github.obimp.packet.OBIMPPacket.Companion.OBIMP_BEX_COM_SRV_LOGIN_REPLY
+import io.github.obimp.packet.OBIMPPacket.Companion.OBIMP_BEX_COM_SRV_REGISTER_REPLY
 import io.github.obimp.packet.Packet
 import io.github.obimp.packet.handle.PacketHandler
 import io.github.obimp.packet.handle.common.handlers.*
@@ -39,18 +45,5 @@ internal class CommonPacketHandler : PacketHandler<WTLD> {
 
     override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         bexSubtypeToPacketHandler[packet.getSubtype()]?.handlePacket(connection, packet)
-    }
-
-    companion object {
-        //BEX 0x0001, Common. (OBIMP_BEX_COM)
-        const val OBIMP_BEX_COM_CLI_HELLO: Short = 0x0001
-        const val OBIMP_BEX_COM_SRV_HELLO: Short = 0x0002
-        const val OBIMP_BEX_COM_CLI_LOGIN: Short = 0x0003
-        const val OBIMP_BEX_COM_SRV_LOGIN_REPLY: Short = 0x0004
-        const val OBIMP_BEX_COM_SRV_BYE: Short = 0x0005
-        const val OBIMP_BEX_COM_CLI_SRV_KEEPALIVE_PING: Short = 0x0006
-        const val OBIMP_BEX_COM_CLI_SRV_KEEPALIVE_PONG: Short = 0x0007
-        const val OBIMP_BEX_COM_CLI_REGISTER: Short = 0x0008
-        const val OBIMP_BEX_COM_SRV_REGISTER_REPLY: Short = 0x0009
     }
 }

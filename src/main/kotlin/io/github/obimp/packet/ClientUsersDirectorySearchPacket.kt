@@ -23,11 +23,6 @@ import io.github.obimp.data.type.Byte
 import io.github.obimp.data.type.LongWord
 import io.github.obimp.data.type.UTF8
 import io.github.obimp.data.type.Word
-import io.github.obimp.packet.body.Body
-import io.github.obimp.packet.body.OBIMPBody
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_UD
-import io.github.obimp.packet.handle.ud.UsersDirectoryPacketHandler.Companion.OBIMP_BEX_UD_CLI_SEARCH
-import io.github.obimp.packet.header.Header
 import io.github.obimp.packet.header.OBIMPHeader
 import io.github.obimp.presence.Language
 import io.github.obimp.ud.Country
@@ -53,31 +48,28 @@ class ClientUsersDirectorySearchPacket(
     interests: String? = null,
     onlineOnly: Boolean = false,
     transportItemID: Int? = null
-) : Packet<WTLD> {
-    override var header: Header = OBIMPHeader(type = OBIMP_BEX_UD, subtype = OBIMP_BEX_UD_CLI_SEARCH)
-    override var body: Body<WTLD> = OBIMPBody()
-
+) : OBIMPPacket(OBIMPHeader(type = OBIMP_BEX_UD, subtype = OBIMP_BEX_UD_CLI_SEARCH)) {
     init {
         if (accountName != null) {
-            body.content.add(WTLD(LongWord(0x0001), UTF8(accountName)))
+            addItem(WTLD(LongWord(0x0001), UTF8(accountName)))
         } else if (email != null) {
-            body.content.add(WTLD(LongWord(0x0002), UTF8(email)))
+            addItem(WTLD(LongWord(0x0002), UTF8(email)))
         } else {
-            nickname?.let { body.content.add(WTLD(LongWord(0x0003), UTF8(it))) }
-            firstName?.let { body.content.add(WTLD(LongWord(0x0004), UTF8(it))) }
-            lastname?.let { body.content.add(WTLD(LongWord(0x0005), UTF8(it))) }
-            country?.let { body.content.add(WTLD(LongWord(0x0006), Word(it.code))) }
-            city?.let { body.content.add(WTLD(LongWord(0x0007), UTF8(it))) }
-            language?.let { body.content.add(WTLD(LongWord(0x0008), Word(it.code))) }
-            gender?.let { body.content.add(WTLD(LongWord(0x0009), Byte(it.value))) }
-            minAge?.let { body.content.add(WTLD(LongWord(0x000A), Byte(it.toByte()))) }
-            maxAge?.let { body.content.add(WTLD(LongWord(0x000B), Byte(it.toByte()))) }
-            zodiacSign?.let { body.content.add(WTLD(LongWord(0x000C), Byte(it.value))) }
-            interests?.let { body.content.add(WTLD(LongWord(0x000D), UTF8(it))) }
+            nickname?.let { addItem(WTLD(LongWord(0x0003), UTF8(it))) }
+            firstName?.let { addItem(WTLD(LongWord(0x0004), UTF8(it))) }
+            lastname?.let { addItem(WTLD(LongWord(0x0005), UTF8(it))) }
+            country?.let { addItem(WTLD(LongWord(0x0006), Word(it.code))) }
+            city?.let { addItem(WTLD(LongWord(0x0007), UTF8(it))) }
+            language?.let { addItem(WTLD(LongWord(0x0008), Word(it.code))) }
+            gender?.let { addItem(WTLD(LongWord(0x0009), Byte(it.value))) }
+            minAge?.let { addItem(WTLD(LongWord(0x000A), Byte(it.toByte()))) }
+            maxAge?.let { addItem(WTLD(LongWord(0x000B), Byte(it.toByte()))) }
+            zodiacSign?.let { addItem(WTLD(LongWord(0x000C), Byte(it.value))) }
+            interests?.let { addItem(WTLD(LongWord(0x000D), UTF8(it))) }
             if (onlineOnly) {
-                body.content.add(WTLD(LongWord(0x000E)))
+                addItem(WTLD(LongWord(0x000E)))
             }
         }
-        transportItemID?.let { body.content.add(WTLD(LongWord(0x1001), LongWord(it))) }
+        transportItemID?.let { addItem(WTLD(LongWord(0x1001), LongWord(it))) }
     }
 }

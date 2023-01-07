@@ -24,7 +24,9 @@ import io.github.obimp.data.structure.DataStructure
 import io.github.obimp.listener.CommonListener
 import io.github.obimp.packet.ClientHelloPacket
 import io.github.obimp.packet.ClientLoginPacket
+import io.github.obimp.packet.OBIMPPacket
 import io.github.obimp.packet.Packet
+import io.github.obimp.packet.handle.OBIMPPacketHandler
 import java.nio.channels.SocketChannel
 
 /**
@@ -40,11 +42,12 @@ internal abstract class AbstractOBIMPConnection(
         get() = field++
     internal lateinit var username: String
     private lateinit var password: String
+    val packetHandler = OBIMPPacketHandler()
 
     override fun sendPacket(packet: Packet<out DataStructure<*>>) {
         try {
-            packet.header.sequence = sequence
-            packet.header.contentLength = packet.body.getLength()
+            /*(packet as OBIMPPacket).header.sequence = sequence
+            packet.header.contentLength = packet.body.getLength()*/
             outputCache.add(packet)
         } catch (e: Exception) {
             for (commonListener in getListeners<CommonListener>()) {

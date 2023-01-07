@@ -21,21 +21,15 @@ package io.github.obimp.packet
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.type.LongWord
 import io.github.obimp.data.type.UTF8
-import io.github.obimp.packet.body.Body
-import io.github.obimp.packet.body.OBIMPBody
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_COM
-import io.github.obimp.packet.handle.common.CommonPacketHandler.Companion.OBIMP_BEX_COM_CLI_HELLO
-import io.github.obimp.packet.header.Header
 import io.github.obimp.packet.header.OBIMPHeader
 
 /**
  * @author Alexander Krysin
  */
-class ClientHelloPacket(accountName: String) : Packet<WTLD> {
-    override var header: Header = OBIMPHeader(type = OBIMP_BEX_COM, subtype = OBIMP_BEX_COM_CLI_HELLO)
-    override var body: Body<WTLD> = OBIMPBody()
-
+class ClientHelloPacket(
+    accountName: String
+) : OBIMPPacket(OBIMPHeader(type = OBIMP_BEX_COM, subtype = OBIMP_BEX_COM_CLI_HELLO)) {
     init {
-        body.content.add(WTLD(LongWord(0x0001), UTF8(accountName)))
+        addItem(WTLD(LongWord(0x0001), UTF8(accountName)))
     }
 }

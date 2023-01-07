@@ -1,7 +1,7 @@
 plugins {
     id 'maven-publish'
     id 'signing'
-    id 'org.jetbrains.kotlin.jvm' version '1.7.21'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.0'
 }
 
 group = 'io.github.obimp'
@@ -19,15 +19,11 @@ repositories {
 }
 
 compileKotlin {
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
 }
 
 compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
 }
 
 java {
@@ -36,7 +32,7 @@ java {
 }
 
 dependencies {
-    implementation 'io.github.obimp:obimp4j-core:0.1.8'
+    implementation 'io.github.obimp:obimp4j-core:0.1.9'
     implementation 'org.bouncycastle:bctls-jdk18on:1.72'
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }

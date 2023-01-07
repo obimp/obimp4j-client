@@ -24,23 +24,17 @@ import io.github.obimp.data.type.QuadWord
 import io.github.obimp.data.type.UTF8
 import io.github.obimp.data.type.Word
 import io.github.obimp.ft.FileTransferError
-import io.github.obimp.packet.body.Body
-import io.github.obimp.packet.body.OBIMPBody
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_FT
-import io.github.obimp.packet.handle.ft.FileTransferPacketHandler.Companion.OBIMP_BEX_FT_DIR_PROX_ERROR
-import io.github.obimp.packet.header.Header
 import io.github.obimp.packet.header.OBIMPHeader
 
 /**
  * @author Alexander Krysin
  */
-class FileTransferDirectProxiedErrorPacket(error: FileTransferError) : Packet<WTLD> {
-    override var header: Header = OBIMPHeader(type = OBIMP_BEX_FT, subtype = OBIMP_BEX_FT_DIR_PROX_ERROR)
-    override var body: Body<WTLD> = OBIMPBody()
-
+class FileTransferDirectProxiedErrorPacket(
+    error: FileTransferError
+) : OBIMPPacket(OBIMPHeader(type = OBIMP_BEX_FT, subtype = OBIMP_BEX_FT_DIR_PROX_ERROR)) {
     init {
-        body.content.add(WTLD(LongWord(0x0001), UTF8(error.accountName)))
-        body.content.add(WTLD(LongWord(0x0002), QuadWord(error.uniqueFileTransferID)))
-        body.content.add(WTLD(LongWord(0x0003), Word(error.fileTransferErrorType.code)))
+        addItem(WTLD(LongWord(0x0001), UTF8(error.accountName)))
+        addItem(WTLD(LongWord(0x0002), QuadWord(error.uniqueFileTransferID)))
+        addItem(WTLD(LongWord(0x0003), Word(error.fileTransferErrorType.code)))
     }
 }

@@ -21,11 +21,6 @@ package io.github.obimp.packet
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.type.LongWord
 import io.github.obimp.data.type.UTF8
-import io.github.obimp.packet.body.Body
-import io.github.obimp.packet.body.OBIMPBody
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_UD
-import io.github.obimp.packet.handle.ud.UsersDirectoryPacketHandler.Companion.OBIMP_BEX_UD_CLI_SECURE_UPD
-import io.github.obimp.packet.header.Header
 import io.github.obimp.packet.header.OBIMPHeader
 
 /**
@@ -36,14 +31,11 @@ class ClientUsersDirectorySecureUpdatePacket(
     currentPassword: String,
     newSecureEmail: String? = null,
     newPassword: String? = null
-) : Packet<WTLD> {
-    override var header: Header = OBIMPHeader(type = OBIMP_BEX_UD, subtype = OBIMP_BEX_UD_CLI_SECURE_UPD)
-    override var body: Body<WTLD> = OBIMPBody()
-
+) : OBIMPPacket(OBIMPHeader(type = OBIMP_BEX_UD, subtype = OBIMP_BEX_UD_CLI_SECURE_UPD)) {
     init {
-        body.content.add(WTLD(LongWord(0x0001), UTF8(accountName)))
-        body.content.add(WTLD(LongWord(0x0002), UTF8(currentPassword)))
-        newSecureEmail?.let { body.content.add(WTLD(LongWord(0x0003), UTF8(it))) }
-        newPassword?.let { body.content.add(WTLD(LongWord(0x0004), UTF8(it))) }
+        addItem(WTLD(LongWord(0x0001), UTF8(accountName)))
+        addItem(WTLD(LongWord(0x0002), UTF8(currentPassword)))
+        newSecureEmail?.let { addItem(WTLD(LongWord(0x0003), UTF8(it))) }
+        newPassword?.let { addItem(WTLD(LongWord(0x0004), UTF8(it))) }
     }
 }

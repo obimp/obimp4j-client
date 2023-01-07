@@ -20,17 +20,15 @@ package io.github.obimp.packet.handle.im.handlers
 
 import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
-import io.github.obimp.packet.OBIMPPacket
+import io.github.obimp.packet.ClientDeleteOfflineMessagesPacket
 import io.github.obimp.packet.Packet
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_IM
 import io.github.obimp.packet.handle.PacketHandler
-import io.github.obimp.packet.handle.im.InstantMessagingPacketHandler.Companion.OBIMP_BEX_IM_CLI_DEL_OFFLINE
 
 /**
  * @author Alexander Krysin
  */
 internal class DoneOfflinePacketHandler : PacketHandler<WTLD> {
     override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
-        connection.sendPacket(OBIMPPacket(OBIMP_BEX_IM, OBIMP_BEX_IM_CLI_DEL_OFFLINE))
+        connection.sendPacket(ClientDeleteOfflineMessagesPacket())
     }
 }

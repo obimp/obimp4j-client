@@ -18,18 +18,9 @@
 
 package io.github.obimp.packet
 
-import io.github.obimp.data.structure.WTLD
-import io.github.obimp.packet.body.Body
-import io.github.obimp.packet.body.OBIMPBody
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_UA
-import io.github.obimp.packet.handle.ua.UserAvatarsPacketHandler.Companion.OBIMP_BEX_UA_CLI_PARAMS
-import io.github.obimp.packet.header.Header
 import io.github.obimp.packet.header.OBIMPHeader
 
 /**
  * @author Alexander Krysin
  */
-class ClientUserAvatarsParamsPacket : Packet<WTLD> {
-    override var body: Body<WTLD> = OBIMPBody()
-    override var header: Header = OBIMPHeader(type = OBIMP_BEX_UA, subtype = OBIMP_BEX_UA_CLI_PARAMS)
-}
+class ClientUserAvatarsParamsPacket : OBIMPPacket(OBIMPHeader(type = OBIMP_BEX_UA, subtype = OBIMP_BEX_UA_CLI_PARAMS))

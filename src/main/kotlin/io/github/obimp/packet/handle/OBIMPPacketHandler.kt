@@ -20,6 +20,14 @@ package io.github.obimp.packet.handle
 
 import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
+import io.github.obimp.packet.OBIMPPacket.Companion.OBIMP_BEX_CL
+import io.github.obimp.packet.OBIMPPacket.Companion.OBIMP_BEX_COM
+import io.github.obimp.packet.OBIMPPacket.Companion.OBIMP_BEX_FT
+import io.github.obimp.packet.OBIMPPacket.Companion.OBIMP_BEX_IM
+import io.github.obimp.packet.OBIMPPacket.Companion.OBIMP_BEX_PRES
+import io.github.obimp.packet.OBIMPPacket.Companion.OBIMP_BEX_TP
+import io.github.obimp.packet.OBIMPPacket.Companion.OBIMP_BEX_UA
+import io.github.obimp.packet.OBIMPPacket.Companion.OBIMP_BEX_UD
 import io.github.obimp.packet.Packet
 import io.github.obimp.packet.handle.cl.ContactListPacketHandler
 import io.github.obimp.packet.handle.common.CommonPacketHandler
@@ -47,19 +55,5 @@ internal class OBIMPPacketHandler : PacketHandler<WTLD> {
 
     override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
         bexTypeToPacketHandler[packet.getType()]?.handlePacket(connection, packet)
-    }
-
-
-
-    companion object {
-        //General BEX types
-        const val OBIMP_BEX_COM: Short = 0x0001 // Common
-        const val OBIMP_BEX_CL: Short = 0x0002 // Contact list
-        const val OBIMP_BEX_PRES: Short = 0x0003 // Presence
-        const val OBIMP_BEX_IM: Short = 0x0004 // Instant messaging
-        const val OBIMP_BEX_UD: Short = 0x0005 // Users directory
-        const val OBIMP_BEX_UA: Short = 0x0006 // User avatars
-        const val OBIMP_BEX_FT: Short = 0x0007 // File transfer
-        const val OBIMP_BEX_TP: Short = 0x0008 // Transports
     }
 }

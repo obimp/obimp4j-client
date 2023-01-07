@@ -23,11 +23,6 @@ import io.github.obimp.data.structure.STLD
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.type.*
 import io.github.obimp.data.type.Byte
-import io.github.obimp.packet.body.Body
-import io.github.obimp.packet.body.OBIMPBody
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_CL
-import io.github.obimp.packet.handle.cl.ContactListPacketHandler.Companion.OBIMP_BEX_CL_CLI_UPD_ITEM
-import io.github.obimp.packet.header.Header
 import io.github.obimp.packet.header.OBIMPHeader
 import java.nio.ByteBuffer
 
@@ -38,13 +33,10 @@ class ClientContactListUpdItemPacket(
     itemID: Int,
     newParentGroupID: Int? = null,
     item: ContactListItem? = null
-) : Packet<WTLD> {
-    override var header: Header = OBIMPHeader(type = OBIMP_BEX_CL, subtype = OBIMP_BEX_CL_CLI_UPD_ITEM)
-    override var body: Body<WTLD> = OBIMPBody()
-
+) : OBIMPPacket(OBIMPHeader(type = OBIMP_BEX_CL, subtype = OBIMP_BEX_CL_CLI_UPD_ITEM)) {
     init {
-        body.content.add(WTLD(LongWord(0x0001), LongWord(itemID)))
-        newParentGroupID?.let { body.content.add(WTLD(LongWord(0x0002), LongWord(newParentGroupID))) }
+        addItem(WTLD(LongWord(0x0001), LongWord(itemID)))
+        newParentGroupID?.let { addItem(WTLD(LongWord(0x0002), LongWord(newParentGroupID))) }
         item?.let {
             val itemData = mutableListOf<STLD>()
             when (it.type) {
@@ -77,7 +69,7 @@ class ClientContactListUpdItemPacket(
                     note.notePictureMD5Hash?.let { itemData.add(STLD(Word(0x2005), OctaWord(ByteBuffer.wrap(it)))) }
                 }
             }
-            body.content.add(WTLD(LongWord(0x0003), *itemData.toTypedArray()))
+            addItem(WTLD(LongWord(0x0003), *itemData.toTypedArray()))
         }
     }
 }

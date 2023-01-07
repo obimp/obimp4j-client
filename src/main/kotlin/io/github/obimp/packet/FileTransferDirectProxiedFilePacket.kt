@@ -23,25 +23,19 @@ import io.github.obimp.data.type.LongWord
 import io.github.obimp.data.type.QuadWord
 import io.github.obimp.data.type.UTF8
 import io.github.obimp.ft.FileTransferFileInfo
-import io.github.obimp.packet.body.Body
-import io.github.obimp.packet.body.OBIMPBody
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_FT
-import io.github.obimp.packet.handle.ft.FileTransferPacketHandler.Companion.OBIMP_BEX_FT_DIR_PROX_FILE
-import io.github.obimp.packet.header.Header
 import io.github.obimp.packet.header.OBIMPHeader
 
 /**
  * @author Alexander Krysin
  */
-class FileTransferDirectProxiedFilePacket(fileInfo: FileTransferFileInfo) : Packet<WTLD> {
-    override var header: Header = OBIMPHeader(type = OBIMP_BEX_FT, subtype = OBIMP_BEX_FT_DIR_PROX_FILE)
-    override var body: Body<WTLD> = OBIMPBody()
-
+class FileTransferDirectProxiedFilePacket(
+    fileInfo: FileTransferFileInfo
+) : OBIMPPacket(OBIMPHeader(type = OBIMP_BEX_FT, subtype = OBIMP_BEX_FT_DIR_PROX_FILE)) {
     init {
-        body.content.add(WTLD(LongWord(0x0001), UTF8(fileInfo.accountName)))
-        body.content.add(WTLD(LongWord(0x0002), QuadWord(fileInfo.uniqueFileTransferID)))
-        body.content.add(WTLD(LongWord(0x0003), QuadWord(fileInfo.fileSize)))
-        body.content.add(WTLD(LongWord(0x0004), UTF8(fileInfo.fileName)))
-        fileInfo.relativeFilePath?.let { body.content.add(WTLD(LongWord(0x0005), UTF8(it))) }
+        addItem(WTLD(LongWord(0x0001), UTF8(fileInfo.accountName)))
+        addItem(WTLD(LongWord(0x0002), QuadWord(fileInfo.uniqueFileTransferID)))
+        addItem(WTLD(LongWord(0x0003), QuadWord(fileInfo.fileSize)))
+        addItem(WTLD(LongWord(0x0004), UTF8(fileInfo.fileName)))
+        fileInfo.relativeFilePath?.let { addItem(WTLD(LongWord(0x0005), UTF8(it))) }
     }
 }

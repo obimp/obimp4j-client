@@ -22,11 +22,6 @@ import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.type.LongWord
 import io.github.obimp.data.type.UTF8
 import io.github.obimp.data.type.UUID
-import io.github.obimp.packet.body.Body
-import io.github.obimp.packet.body.OBIMPBody
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_PRES
-import io.github.obimp.packet.handle.presence.PresencePacketHandler.Companion.OBIMP_BEX_PRES_CLI_SET_STATUS
-import io.github.obimp.packet.header.Header
 import io.github.obimp.packet.header.OBIMPHeader
 import io.github.obimp.presence.Status
 import io.github.obimp.presence.XStatus
@@ -40,15 +35,12 @@ class ClientSetStatusPacket(
     xStatusPictureNumber: Int? = null,
     xStatusDescription: String? = null,
     xStatus: XStatus? = null
-) : Packet<WTLD> {
-    override var header: Header = OBIMPHeader(type = OBIMP_BEX_PRES, subtype = OBIMP_BEX_PRES_CLI_SET_STATUS)
-    override var body: Body<WTLD> = OBIMPBody()
-
+) : OBIMPPacket(OBIMPHeader(type = OBIMP_BEX_PRES, subtype = OBIMP_BEX_PRES_CLI_SET_STATUS)) {
     init {
-        body.content.add(WTLD(LongWord(0x0001), LongWord(status.value)))
-        statusName?.let { body.content.add(WTLD(LongWord(0x0002), UTF8(it))) }
-        xStatusPictureNumber?.let { body.content.add(WTLD(LongWord(0x0003), LongWord(it))) }
-        xStatusDescription?.let { body.content.add(WTLD(LongWord(0x0004), UTF8(it))) }
-        xStatus?.let { body.content.add(WTLD(LongWord(0x0005), UUID(it.uuid))) }
+        addItem(WTLD(LongWord(0x0001), LongWord(status.value)))
+        statusName?.let { addItem(WTLD(LongWord(0x0002), UTF8(it))) }
+        xStatusPictureNumber?.let { addItem(WTLD(LongWord(0x0003), LongWord(it))) }
+        xStatusDescription?.let { addItem(WTLD(LongWord(0x0004), UTF8(it))) }
+        xStatus?.let { addItem(WTLD(LongWord(0x0005), UUID(it.uuid))) }
     }
 }

@@ -20,27 +20,26 @@ package io.github.obimp.packet
 
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.type.LongWord
-import io.github.obimp.data.type.QuadWord
 import io.github.obimp.data.type.UTF8
 import io.github.obimp.data.type.Word
-import io.github.obimp.ft.FileTransferControlMessage
-import io.github.obimp.packet.body.Body
-import io.github.obimp.packet.body.OBIMPBody
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_FT
-import io.github.obimp.packet.handle.ft.FileTransferPacketHandler.Companion.OBIMP_BEX_FT_CLI_SRV_CONTROL
-import io.github.obimp.packet.header.Header
 import io.github.obimp.packet.header.OBIMPHeader
+import io.github.obimp.transports.TransportConnectionManage
 
 /**
  * @author Alexander Krysin
  */
-class ClientServerControlPacket(controlMessage: FileTransferControlMessage) : Packet<WTLD> {
-    override var header: Header = OBIMPHeader(type = OBIMP_BEX_FT, subtype = OBIMP_BEX_FT_CLI_SRV_CONTROL)
-    override var body: Body<WTLD> = OBIMPBody()
-
+class ClientTransportsManage(
+    transportItemID: Int,
+    connectionManagingCode: TransportConnectionManage,
+    supportedOBIMPPresenceStatusValue: Int?,
+    additionalStatusPictureID: Int?,
+    additionalStatusPictureDescription: String?
+) : OBIMPPacket(OBIMPHeader(type = OBIMP_BEX_TP, subtype = OBIMP_BEX_TP_CLI_MANAGE)) {
     init {
-        body.content.add(WTLD(LongWord(0x0001), UTF8(controlMessage.accountName)))
-        body.content.add(WTLD(LongWord(0x0002), QuadWord(controlMessage.uniqueFileTransferID)))
-        body.content.add(WTLD(LongWord(0x0003), Word(controlMessage.fileTransferControl.code)))
+        addItem(WTLD(LongWord(0x0001), LongWord(transportItemID)))
+        addItem(WTLD(LongWord(0x0002), Word(connectionManagingCode.code)))
+        supportedOBIMPPresenceStatusValue?.let { addItem(WTLD(LongWord(0x0003), LongWord(it))) }
+        additionalStatusPictureID?.let { addItem(WTLD(LongWord(0x0004), LongWord(it))) }
+        additionalStatusPictureDescription?.let { addItem(WTLD(LongWord(0x0005), UTF8(it))) }
     }
 }

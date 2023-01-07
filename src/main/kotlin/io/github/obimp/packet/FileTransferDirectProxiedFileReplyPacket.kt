@@ -23,23 +23,17 @@ import io.github.obimp.data.type.LongWord
 import io.github.obimp.data.type.QuadWord
 import io.github.obimp.data.type.UTF8
 import io.github.obimp.ft.FileTransferFileReply
-import io.github.obimp.packet.body.Body
-import io.github.obimp.packet.body.OBIMPBody
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_FT
-import io.github.obimp.packet.handle.ft.FileTransferPacketHandler.Companion.OBIMP_BEX_FT_DIR_PROX_FILE_REPLY
-import io.github.obimp.packet.header.Header
 import io.github.obimp.packet.header.OBIMPHeader
 
 /**
  * @author Alexander Krysin
  */
-class FileTransferDirectProxiedFileReplyPacket(fileReply: FileTransferFileReply) : Packet<WTLD> {
-    override var header: Header = OBIMPHeader(type = OBIMP_BEX_FT, subtype = OBIMP_BEX_FT_DIR_PROX_FILE_REPLY)
-    override var body: Body<WTLD> = OBIMPBody()
-
+class FileTransferDirectProxiedFileReplyPacket(
+    fileReply: FileTransferFileReply
+) : OBIMPPacket(OBIMPHeader(type = OBIMP_BEX_FT, subtype = OBIMP_BEX_FT_DIR_PROX_FILE_REPLY)) {
     init {
-        body.content.add(WTLD(LongWord(0x0001), UTF8(fileReply.accountName)))
-        body.content.add(WTLD(LongWord(0x0002), QuadWord(fileReply.uniqueFileTransferID)))
-        body.content.add(WTLD(LongWord(0x0003), QuadWord(fileReply.resumePosition)))
+        addItem(WTLD(LongWord(0x0001), UTF8(fileReply.accountName)))
+        addItem(WTLD(LongWord(0x0002), QuadWord(fileReply.uniqueFileTransferID)))
+        addItem(WTLD(LongWord(0x0003), QuadWord(fileReply.resumePosition)))
     }
 }

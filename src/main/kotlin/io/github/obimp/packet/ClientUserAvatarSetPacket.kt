@@ -22,11 +22,6 @@ import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.type.BLK
 import io.github.obimp.data.type.LongWord
 import io.github.obimp.data.type.OctaWord
-import io.github.obimp.packet.body.Body
-import io.github.obimp.packet.body.OBIMPBody
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_UA
-import io.github.obimp.packet.handle.ua.UserAvatarsPacketHandler.Companion.OBIMP_BEX_UA_CLI_AVATAR_SET
-import io.github.obimp.packet.header.Header
 import io.github.obimp.packet.header.OBIMPHeader
 import java.nio.ByteBuffer
 
@@ -37,17 +32,15 @@ class ClientUserAvatarSetPacket(
     avatarFileMD5Hash: ByteArray? = null,
     avatarFileData: ByteArray? = null,
     clearAvatar: Boolean? = null,
-    transportItemID: Int? = null) : Packet<WTLD> {
-    override var header: Header = OBIMPHeader(type = OBIMP_BEX_UA, subtype = OBIMP_BEX_UA_CLI_AVATAR_SET)
-    override var body: Body<WTLD> = OBIMPBody()
-
+    transportItemID: Int? = null
+) : OBIMPPacket(OBIMPHeader(type = OBIMP_BEX_UA, subtype = OBIMP_BEX_UA_CLI_AVATAR_SET)) {
     init {
         if (avatarFileMD5Hash != null && avatarFileData != null) {
-            body.content.add(WTLD(LongWord(0x0001), OctaWord(ByteBuffer.wrap(avatarFileMD5Hash))))
-            body.content.add(WTLD(LongWord(0x0002), BLK(ByteBuffer.wrap(avatarFileData))))
+            addItem(WTLD(LongWord(0x0001), OctaWord(ByteBuffer.wrap(avatarFileMD5Hash))))
+            addItem(WTLD(LongWord(0x0002), BLK(ByteBuffer.wrap(avatarFileData))))
         } else if (clearAvatar != null) {
-            body.content.add(WTLD(LongWord(0x0001)))
+            addItem(WTLD(LongWord(0x0001)))
         }
-        transportItemID?.let { body.content.add(WTLD(LongWord(0x1001), LongWord(it))) }
+        transportItemID?.let { addItem(WTLD(LongWord(0x1001), LongWord(it))) }
     }
 }

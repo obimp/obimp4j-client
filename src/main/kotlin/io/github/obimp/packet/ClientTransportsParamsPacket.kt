@@ -18,18 +18,9 @@
 
 package io.github.obimp.packet
 
-import io.github.obimp.data.structure.WTLD
-import io.github.obimp.packet.body.Body
-import io.github.obimp.packet.body.OBIMPBody
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_COM
-import io.github.obimp.packet.handle.common.CommonPacketHandler.Companion.OBIMP_BEX_COM_CLI_SRV_KEEPALIVE_PING
-import io.github.obimp.packet.header.Header
 import io.github.obimp.packet.header.OBIMPHeader
 
 /**
  * @author Alexander Krysin
  */
-class ClientServerKeepalivePingPacket : Packet<WTLD> {
-    override var header: Header = OBIMPHeader(type = OBIMP_BEX_COM, subtype = OBIMP_BEX_COM_CLI_SRV_KEEPALIVE_PING)
-    override var body: Body<WTLD> = OBIMPBody()
-}
+class ClientTransportsParamsPacket : OBIMPPacket(OBIMPHeader(type = OBIMP_BEX_TP, subtype = OBIMP_BEX_TP_CLI_PARAMS))

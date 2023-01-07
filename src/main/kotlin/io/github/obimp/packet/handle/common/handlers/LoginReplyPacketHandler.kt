@@ -25,24 +25,15 @@ import io.github.obimp.data.structure.readDataType
 import io.github.obimp.data.structure.readDataTypeList
 import io.github.obimp.data.type.Word
 import io.github.obimp.listener.CommonListener
-import io.github.obimp.packet.OBIMPPacket
-import io.github.obimp.packet.Packet
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_CL
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_FT
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_IM
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_PRES
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_TP
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_UA
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_UD
+import io.github.obimp.packet.*
+import io.github.obimp.packet.OBIMPPacket.Companion.OBIMP_BEX_CL
+import io.github.obimp.packet.OBIMPPacket.Companion.OBIMP_BEX_FT
+import io.github.obimp.packet.OBIMPPacket.Companion.OBIMP_BEX_IM
+import io.github.obimp.packet.OBIMPPacket.Companion.OBIMP_BEX_PRES
+import io.github.obimp.packet.OBIMPPacket.Companion.OBIMP_BEX_TP
+import io.github.obimp.packet.OBIMPPacket.Companion.OBIMP_BEX_UA
+import io.github.obimp.packet.OBIMPPacket.Companion.OBIMP_BEX_UD
 import io.github.obimp.packet.handle.PacketHandler
-import io.github.obimp.packet.handle.cl.ContactListPacketHandler.Companion.OBIMP_BEX_CL_CLI_PARAMS
-import io.github.obimp.packet.handle.ft.FileTransferPacketHandler.Companion.OBIMP_BEX_FT_CLI_PARAMS
-import io.github.obimp.packet.handle.im.InstantMessagingPacketHandler.Companion.OBIMP_BEX_IM_CLI_PARAMS
-import io.github.obimp.packet.handle.presence.PresencePacketHandler.Companion.OBIMP_BEX_PRES_CLI_PARAMS
-import io.github.obimp.packet.handle.presence.PresencePacketHandler.Companion.OBIMP_BEX_PRES_CLI_REQ_PRES_INFO
-import io.github.obimp.packet.handle.transports.TransportsPacketHandler.Companion.OBIMP_BEX_TP_CLI_PARAMS
-import io.github.obimp.packet.handle.ua.UserAvatarsPacketHandler.Companion.OBIMP_BEX_UA_CLI_PARAMS
-import io.github.obimp.packet.handle.ud.UsersDirectoryPacketHandler.Companion.OBIMP_BEX_UD_CLI_PARAMS
 
 /**
  * @author Alexander Krysin
@@ -68,16 +59,16 @@ internal class LoginReplyPacketHandler : PacketHandler<WTLD> {
             }
             for (bexType in serverSupportedBexs.keys) {
                 when (bexType) {
-                    OBIMP_BEX_CL -> connection.sendPacket(OBIMPPacket(OBIMP_BEX_CL, OBIMP_BEX_CL_CLI_PARAMS))
-                    OBIMP_BEX_PRES -> connection.sendPacket(OBIMPPacket(OBIMP_BEX_PRES, OBIMP_BEX_PRES_CLI_PARAMS))
-                    OBIMP_BEX_IM -> connection.sendPacket(OBIMPPacket(OBIMP_BEX_IM, OBIMP_BEX_IM_CLI_PARAMS))
-                    OBIMP_BEX_UD -> connection.sendPacket(OBIMPPacket(OBIMP_BEX_UD, OBIMP_BEX_UD_CLI_PARAMS))
-                    OBIMP_BEX_UA -> connection.sendPacket(OBIMPPacket(OBIMP_BEX_UA, OBIMP_BEX_UA_CLI_PARAMS))
-                    OBIMP_BEX_FT -> connection.sendPacket(OBIMPPacket(OBIMP_BEX_FT, OBIMP_BEX_FT_CLI_PARAMS))
-                    OBIMP_BEX_TP -> connection.sendPacket(OBIMPPacket(OBIMP_BEX_TP, OBIMP_BEX_TP_CLI_PARAMS))
+                    OBIMP_BEX_CL -> connection.sendPacket(ClientContactListParamsPacket())
+                    OBIMP_BEX_PRES -> connection.sendPacket(ClientPresenceParamsPacket())
+                    OBIMP_BEX_IM -> connection.sendPacket(ClientInstantMessagingParamsPacket())
+                    OBIMP_BEX_UD -> connection.sendPacket(ClientUsersDirectoryParamsPacket())
+                    OBIMP_BEX_UA -> connection.sendPacket(ClientUserAvatarsParamsPacket())
+                    OBIMP_BEX_FT -> connection.sendPacket(ClientFileTransferParamsPacket())
+                    OBIMP_BEX_TP -> connection.sendPacket(ClientTransportsParamsPacket())
                 }
             }
-            connection.sendPacket(OBIMPPacket(OBIMP_BEX_PRES, OBIMP_BEX_PRES_CLI_REQ_PRES_INFO))
+            connection.sendPacket(ClientRequestPresenceInfoPacket())
         }
     }
 }

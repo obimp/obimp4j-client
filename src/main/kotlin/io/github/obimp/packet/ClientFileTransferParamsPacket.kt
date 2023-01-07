@@ -18,18 +18,9 @@
 
 package io.github.obimp.packet
 
-import io.github.obimp.data.structure.WTLD
-import io.github.obimp.packet.body.Body
-import io.github.obimp.packet.body.OBIMPBody
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_FT
-import io.github.obimp.packet.handle.ft.FileTransferPacketHandler.Companion.OBIMP_BEX_FT_CLI_PARAMS
-import io.github.obimp.packet.header.Header
 import io.github.obimp.packet.header.OBIMPHeader
 
 /**
  * @author Alexander Krysin
  */
-class ClientFileTransferParamsPacket : Packet<WTLD> {
-    override var header: Header = OBIMPHeader(type = OBIMP_BEX_FT, subtype = OBIMP_BEX_FT_CLI_PARAMS)
-    override var body: Body<WTLD> = OBIMPBody()
-}
+class ClientFileTransferParamsPacket : OBIMPPacket(OBIMPHeader(type = OBIMP_BEX_FT, subtype = OBIMP_BEX_FT_CLI_PARAMS))

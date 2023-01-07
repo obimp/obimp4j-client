@@ -21,22 +21,17 @@ package io.github.obimp.packet
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.type.LongWord
 import io.github.obimp.data.type.UTF8
-import io.github.obimp.packet.body.Body
-import io.github.obimp.packet.body.OBIMPBody
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_IM
-import io.github.obimp.packet.handle.im.InstantMessagingPacketHandler.Companion.OBIMP_BEX_IM_CLI_MULTIPLE_MSG
-import io.github.obimp.packet.header.Header
 import io.github.obimp.packet.header.OBIMPHeader
 
 /**
  * @author Alexander Krysin
  */
-class ClientMultipleMessagePacket(accountNames: List<String>, messageText: String) : Packet<WTLD> {
-    override var header: Header = OBIMPHeader(type = OBIMP_BEX_IM, subtype = OBIMP_BEX_IM_CLI_MULTIPLE_MSG)
-    override var body: Body<WTLD> = OBIMPBody()
-
+class ClientMultipleMessagePacket(
+    accountNames: List<String>,
+    messageText: String
+) : OBIMPPacket(OBIMPHeader(type = OBIMP_BEX_IM, subtype = OBIMP_BEX_IM_CLI_MULTIPLE_MSG)) {
     init {
-        body.content.add(WTLD(LongWord(0x0001), *accountNames.map(::UTF8).toTypedArray()))
-        body.content.add(WTLD(LongWord(0x0002), UTF8(messageText)))
+        addItem(WTLD(LongWord(0x0001), *accountNames.map(::UTF8).toTypedArray()))
+        addItem(WTLD(LongWord(0x0002), UTF8(messageText)))
     }
 }

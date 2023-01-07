@@ -23,9 +23,9 @@ import io.github.obimp.connection.SecureOBIMPConnection
 import io.github.obimp.im.MessageType
 import io.github.obimp.im.NotificationType
 import io.github.obimp.im.NotificationValue
+import io.github.obimp.im.packet.ClientServerNotifyPacket
 import io.github.obimp.listener.*
 import io.github.obimp.packet.ClientMessagePacket
-import io.github.obimp.packet.ClientServerNotifyPacket
 import io.github.obimp.packet.ClientUserAvatarRequestPacket
 
 /**

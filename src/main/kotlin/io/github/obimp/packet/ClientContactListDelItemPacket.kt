@@ -20,21 +20,15 @@ package io.github.obimp.packet
 
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.type.LongWord
-import io.github.obimp.packet.body.Body
-import io.github.obimp.packet.body.OBIMPBody
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_CL
-import io.github.obimp.packet.handle.cl.ContactListPacketHandler.Companion.OBIMP_BEX_CL_CLI_DEL_ITEM
-import io.github.obimp.packet.header.Header
 import io.github.obimp.packet.header.OBIMPHeader
 
 /**
  * @author Alexander Krysin
  */
-class ClientContactListDelItemPacket(itemID: Int) : Packet<WTLD> {
-    override var header: Header = OBIMPHeader(type = OBIMP_BEX_CL, subtype = OBIMP_BEX_CL_CLI_DEL_ITEM)
-    override var body: Body<WTLD> = OBIMPBody()
-
+class ClientContactListDelItemPacket(
+    itemID: Int
+) : OBIMPPacket(OBIMPHeader(type = OBIMP_BEX_CL, subtype = OBIMP_BEX_CL_CLI_DEL_ITEM)) {
     init {
-        body.content.add(WTLD(LongWord(0x0001), LongWord(itemID)))
+        addItem(WTLD(LongWord(0x0001), LongWord(itemID)))
     }
 }

@@ -27,12 +27,10 @@ import io.github.obimp.im.EncryptionType
 import io.github.obimp.im.IncomingMessage
 import io.github.obimp.im.MessageType
 import io.github.obimp.im.SystemMessagePopupPosition
+import io.github.obimp.im.packet.ClientServerMessageReportPacket
 import io.github.obimp.listener.InstantMessagingListener
-import io.github.obimp.packet.OBIMPPacket
 import io.github.obimp.packet.Packet
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_IM
 import io.github.obimp.packet.handle.PacketHandler
-import io.github.obimp.packet.handle.im.InstantMessagingPacketHandler.Companion.OBIMP_BEX_IM_CLI_SRV_MSG_REPORT
 import java.time.LocalDateTime
 
 /**
@@ -91,10 +89,7 @@ internal class MessagePacketHandler : PacketHandler<WTLD> {
             val wtld = packet.nextItem()
             when (wtld.getType()) {
                 0x0005 -> {
-                    val msgReport = OBIMPPacket(OBIMP_BEX_IM, OBIMP_BEX_IM_CLI_SRV_MSG_REPORT)
-                    msgReport.addItem(WTLD(LongWord(0x0001), UTF8(connection.username)))
-                    msgReport.addItem(WTLD(LongWord(0x0002), LongWord(messageId)))
-                    connection.sendPacket(msgReport)
+                    connection.sendPacket(ClientServerMessageReportPacket(connection.username, messageId))
                 }
             }
         }

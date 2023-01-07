@@ -18,18 +18,9 @@
 
 package io.github.obimp.packet
 
-import io.github.obimp.data.structure.WTLD
-import io.github.obimp.packet.body.Body
-import io.github.obimp.packet.body.OBIMPBody
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_PRES
-import io.github.obimp.packet.handle.presence.PresencePacketHandler.Companion.OBIMP_BEX_PRES_CLI_ACTIVATE
-import io.github.obimp.packet.header.Header
 import io.github.obimp.packet.header.OBIMPHeader
 
 /**
  * @author Alexander Krysin
  */
-class ClientActivatePacket : Packet<WTLD> {
-    override var header: Header = OBIMPHeader(type = OBIMP_BEX_PRES, subtype = OBIMP_BEX_PRES_CLI_ACTIVATE)
-    override var body: Body<WTLD> = OBIMPBody()
-}
+class ClientActivatePacket : OBIMPPacket(OBIMPHeader(type = OBIMP_BEX_PRES, subtype = OBIMP_BEX_PRES_CLI_ACTIVATE))

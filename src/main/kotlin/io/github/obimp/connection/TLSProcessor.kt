@@ -20,6 +20,8 @@ package io.github.obimp.connection
 
 import io.github.obimp.connection.input.OBIMPInputDataParser
 import io.github.obimp.listener.CommonListener
+import io.github.obimp.packet.handle.OBIMPPacketHandler
+import io.github.obimp.packet.parse.OBIMPPacketParser
 import org.bouncycastle.tls.TlsClientProtocol
 import java.nio.ByteBuffer
 import kotlin.concurrent.thread
@@ -45,6 +47,10 @@ internal object TLSProcessor {
                                 val buffer = ByteBuffer.allocate(availableInputBytes)
                                 protocol.readInput(buffer, availableInputBytes)
                                 buffer.flip()
+                                val packets = OBIMPPacketParser.parsePackets(buffer)
+                                for (packet in packets) {
+                                    connection.packetHandler.handlePacket(connection, packet)
+                                }
                                 OBIMPInputDataParser.parseInputData(connection, buffer)
                             }
                             connection.writeData()

@@ -18,18 +18,10 @@
 
 package io.github.obimp.packet
 
-import io.github.obimp.data.structure.WTLD
-import io.github.obimp.packet.body.Body
-import io.github.obimp.packet.body.OBIMPBody
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_CL
-import io.github.obimp.packet.handle.cl.ContactListPacketHandler.Companion.OBIMP_BEX_CL_CLI_DEL_OFFAUTH
-import io.github.obimp.packet.header.Header
 import io.github.obimp.packet.header.OBIMPHeader
 
 /**
  * @author Alexander Krysin
  */
-class ClientDeleteOfflineAuthorizationsPacket : Packet<WTLD> {
-    override var body: Body<WTLD> = OBIMPBody()
-    override var header: Header = OBIMPHeader(type = OBIMP_BEX_CL, subtype = OBIMP_BEX_CL_CLI_DEL_OFFAUTH)
-}
+class ClientDeleteOfflineAuthorizationsPacket :
+    OBIMPPacket(OBIMPHeader(type = OBIMP_BEX_CL, subtype = OBIMP_BEX_CL_CLI_DEL_OFFAUTH))

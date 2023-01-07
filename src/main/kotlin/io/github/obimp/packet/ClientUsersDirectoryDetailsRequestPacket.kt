@@ -21,22 +21,17 @@ package io.github.obimp.packet
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.type.LongWord
 import io.github.obimp.data.type.UTF8
-import io.github.obimp.packet.body.Body
-import io.github.obimp.packet.body.OBIMPBody
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_UD
-import io.github.obimp.packet.handle.ud.UsersDirectoryPacketHandler.Companion.OBIMP_BEX_UD_CLI_DETAILS_REQ
-import io.github.obimp.packet.header.Header
 import io.github.obimp.packet.header.OBIMPHeader
 
 /**
  * @author Alexander Krysin
  */
-class ClientUsersDirectoryDetailsRequestPacket(accountName: String, transportItemID: Int? = null) : Packet<WTLD> {
-    override var header: Header = OBIMPHeader(type = OBIMP_BEX_UD, subtype = OBIMP_BEX_UD_CLI_DETAILS_REQ)
-    override var body: Body<WTLD> = OBIMPBody()
-
+class ClientUsersDirectoryDetailsRequestPacket(
+    accountName: String,
+    transportItemID: Int? = null
+) : OBIMPPacket(OBIMPHeader(type = OBIMP_BEX_UD, subtype = OBIMP_BEX_UD_CLI_DETAILS_REQ)) {
     init {
-        body.content.add(WTLD(LongWord(0x0001), UTF8(accountName)))
-        transportItemID?.let { body.content.add(WTLD(LongWord(0x1001), LongWord(it))) }
+        addItem(WTLD(LongWord(0x0001), UTF8(accountName)))
+        transportItemID?.let { addItem(WTLD(LongWord(0x1001), LongWord(it))) }
     }
 }

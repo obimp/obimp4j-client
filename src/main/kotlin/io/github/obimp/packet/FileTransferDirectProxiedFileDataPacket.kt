@@ -21,25 +21,19 @@ package io.github.obimp.packet
 import io.github.obimp.data.structure.WTLD
 import io.github.obimp.data.type.*
 import io.github.obimp.ft.FileTransferFileData
-import io.github.obimp.packet.body.Body
-import io.github.obimp.packet.body.OBIMPBody
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_FT
-import io.github.obimp.packet.handle.ft.FileTransferPacketHandler.Companion.OBIMP_BEX_FT_DIR_PROX_FILE_DATA
-import io.github.obimp.packet.header.Header
 import io.github.obimp.packet.header.OBIMPHeader
 
 /**
  * @author Alexander Krysin
  */
-class FileTransferDirectProxiedFileDataPacket(fileData: FileTransferFileData) : Packet<WTLD> {
-    override var header: Header = OBIMPHeader(type = OBIMP_BEX_FT, subtype = OBIMP_BEX_FT_DIR_PROX_FILE_DATA)
-    override var body: Body<WTLD> = OBIMPBody()
-
+class FileTransferDirectProxiedFileDataPacket(
+    fileData: FileTransferFileData
+) : OBIMPPacket(OBIMPHeader(type = OBIMP_BEX_FT, subtype = OBIMP_BEX_FT_DIR_PROX_FILE_DATA)) {
     init {
-        body.content.add(WTLD(LongWord(0x0001), UTF8(fileData.accountName)))
-        body.content.add(WTLD(LongWord(0x0002), QuadWord(fileData.uniqueFileTransferID)))
-        body.content.add(WTLD(LongWord(0x0003), Bool(fileData.lastFile)))
-        body.content.add(WTLD(LongWord(0x0004), Bool(fileData.lastPartOfFile)))
-        body.content.add(WTLD(LongWord(0x0005), BLK(fileData.fileData)))
+        addItem(WTLD(LongWord(0x0001), UTF8(fileData.accountName)))
+        addItem(WTLD(LongWord(0x0002), QuadWord(fileData.uniqueFileTransferID)))
+        addItem(WTLD(LongWord(0x0003), Bool(fileData.lastFile)))
+        addItem(WTLD(LongWord(0x0004), Bool(fileData.lastPartOfFile)))
+        addItem(WTLD(LongWord(0x0005), BLK(fileData.fileData)))
     }
 }

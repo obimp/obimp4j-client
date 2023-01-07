@@ -20,17 +20,15 @@ package io.github.obimp.packet.handle.cl.handlers
 
 import io.github.obimp.connection.AbstractOBIMPConnection
 import io.github.obimp.data.structure.WTLD
-import io.github.obimp.packet.OBIMPPacket
+import io.github.obimp.packet.ClientDeleteOfflineAuthorizationsPacket
 import io.github.obimp.packet.Packet
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_CL
 import io.github.obimp.packet.handle.PacketHandler
-import io.github.obimp.packet.handle.cl.ContactListPacketHandler.Companion.OBIMP_BEX_CL_CLI_DEL_OFFAUTH
 
 /**
  * @author Alexander Krysin
  */
 internal class DoneOffauthPacketHandler : PacketHandler<WTLD> {
     override fun handlePacket(connection: AbstractOBIMPConnection, packet: Packet<WTLD>) {
-        connection.sendPacket(OBIMPPacket(OBIMP_BEX_CL, OBIMP_BEX_CL_CLI_DEL_OFFAUTH))
+        connection.sendPacket(ClientDeleteOfflineAuthorizationsPacket())
     }
 }

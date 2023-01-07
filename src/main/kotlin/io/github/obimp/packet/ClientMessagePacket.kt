@@ -24,11 +24,6 @@ import io.github.obimp.data.type.LongWord
 import io.github.obimp.data.type.UTF8
 import io.github.obimp.im.EncryptionType
 import io.github.obimp.im.MessageType
-import io.github.obimp.packet.body.Body
-import io.github.obimp.packet.body.OBIMPBody
-import io.github.obimp.packet.handle.OBIMPPacketHandler.Companion.OBIMP_BEX_IM
-import io.github.obimp.packet.handle.im.InstantMessagingPacketHandler.Companion.OBIMP_BEX_IM_CLI_MESSAGE
-import io.github.obimp.packet.header.Header
 import io.github.obimp.packet.header.OBIMPHeader
 import java.nio.ByteBuffer
 
@@ -43,19 +38,16 @@ class ClientMessagePacket(
     requestAcknowledge: Boolean = false,
     encryptionType: EncryptionType? = null,
     transportItemID: Int? = null
-) : Packet<WTLD> {
-    override var header: Header = OBIMPHeader(type = OBIMP_BEX_IM, subtype = OBIMP_BEX_IM_CLI_MESSAGE)
-    override var body: Body<WTLD> = OBIMPBody()
-
+) : OBIMPPacket(OBIMPHeader(type = OBIMP_BEX_IM, subtype = OBIMP_BEX_IM_CLI_MESSAGE)) {
     init {
-        body.content.add(WTLD(LongWord(0x0001), UTF8(accountName)))
-        body.content.add(WTLD(LongWord(0x0002), LongWord(messageID)))
-        body.content.add(WTLD(LongWord(0x0003), LongWord(messageType.type)))
-        body.content.add(WTLD(LongWord(0x0004), BLK(ByteBuffer.wrap(messageData))))
+        addItem(WTLD(LongWord(0x0001), UTF8(accountName)))
+        addItem(WTLD(LongWord(0x0002), LongWord(messageID)))
+        addItem(WTLD(LongWord(0x0003), LongWord(messageType.type)))
+        addItem(WTLD(LongWord(0x0004), BLK(ByteBuffer.wrap(messageData))))
         if (requestAcknowledge) {
-            body.content.add(WTLD(LongWord(0x0005)))
+            addItem(WTLD(LongWord(0x0005)))
         }
-        encryptionType?.let { body.content.add(WTLD(LongWord(0x0006), LongWord(it.type))) }
-        transportItemID?.let { body.content.add(WTLD(LongWord(0x1001), LongWord(it))) }
+        encryptionType?.let { addItem(WTLD(LongWord(0x0006), LongWord(it.type))) }
+        transportItemID?.let { addItem(WTLD(LongWord(0x1001), LongWord(it))) }
     }
 }
